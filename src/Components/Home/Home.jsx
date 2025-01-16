@@ -4,6 +4,7 @@ import internshipsData from "./internshipsData";
 import jobsData from "./jobsData";
 import coursesData from "./coursesData";
 import "./style.css";
+import Modal from './Modal'
 
 const App = () => {
   // State for managing carousel index and animation control
@@ -11,21 +12,24 @@ const App = () => {
   const [jobIndex, setJobIndex] = useState(0);
   const [courseIndex, setCourseIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false); // Animation state
+  const [modal, setModal] = useState(null);
 
   const itemsPerPage = 4;
-
+  const itemsPreview = 1;
+ 
   // Handlers for navigation with delay and animation
   const handleInternshipPrev = () => {
     if (!isAnimating) {
-      setIsAnimating(true); // Start animation
+      setIsAnimating(true);
       setTimeout(() => {
         setInternshipIndex((prevIndex) =>
-          Math.max(prevIndex - itemsPerPage, 0)
+          Math.max(prevIndex - itemsPreview, 0)
         );
-        setIsAnimating(false); // End animation after state update
-      }, 300); // Delay for animation (300ms)
+        setIsAnimating(false);
+      }, 300);
     }
   };
+
 
   const handleInternshipNext = () => {
     if (!isAnimating) {
@@ -33,8 +37,8 @@ const App = () => {
       setTimeout(() => {
         setInternshipIndex((prevIndex) =>
           Math.min(
-            prevIndex + itemsPerPage,
-            internshipsData.length - itemsPerPage
+            prevIndex + itemsPreview,
+            internshipsData.length - itemsPreview
           )
         );
         setIsAnimating(false);
@@ -42,12 +46,13 @@ const App = () => {
     }
   };
 
+
   // Handlers for navigation (Jobs)
   const handleJobPrev = () => {
     if (!isAnimating) {
       setIsAnimating(true);
       setTimeout(() => {
-        setJobIndex((prevIndex) => Math.max(prevIndex - itemsPerPage, 0));
+        setJobIndex((prevIndex) => Math.max(prevIndex - itemsPreview, 0));
         setIsAnimating(false);
       }, 300);
     }
@@ -58,7 +63,7 @@ const App = () => {
       setIsAnimating(true);
       setTimeout(() => {
         setJobIndex((prevIndex) =>
-          Math.min(prevIndex + itemsPerPage, jobsData.length - itemsPerPage)
+          Math.min(prevIndex + itemsPreview, jobsData.length - itemsPreview)
         );
         setIsAnimating(false);
       }, 300);
@@ -70,7 +75,7 @@ const App = () => {
     if (!isAnimating) {
       setIsAnimating(true);
       setTimeout(() => {
-        setCourseIndex((prevIndex) => Math.max(prevIndex - itemsPerPage, 0));
+        setCourseIndex((prevIndex) => Math.max(prevIndex - itemsPreview, 0));
         setIsAnimating(false);
       }, 300);
     }
@@ -81,7 +86,7 @@ const App = () => {
       setIsAnimating(true);
       setTimeout(() => {
         setCourseIndex((prevIndex) =>
-          Math.min(prevIndex + itemsPerPage, coursesData.length - itemsPerPage)
+          Math.min(prevIndex + itemsPreview, coursesData.length - itemsPreview)
         );
         setIsAnimating(false);
       }, 300);
@@ -187,53 +192,53 @@ const App = () => {
         <div className="grid grid-cols-4 gap-5">
           {visibleInternships.map((internship) => (
             <div
-              key={internship.id}
-              className="bg-white rounded-xl shadow-lg border transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl overflow-hidden"
+            key={internship.id}
+            className="bg-white rounded-xl shadow-lg border transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl overflow-hidden"
+          >
+            {/* Top Section with Gradient and Icon */}
+            <div
+              className={`relative w-full h-28 ${internship.bgColor} flex items-center justify-center`}
             >
-              {/* Top Section with Gradient and Icon */}
-              <div
-                className={`relative w-full h-28 ${internship.bgColor} flex items-center justify-center`}
-              >
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                <h3 className="z-10 text-white text-2xl font-bold">{internship.title}</h3>
-              </div>
-
-              {/* Main Content */}
-              <div className="p-5">
-                {/* Organization Name */}
-                <p className="text-gray-700 text-lg font-medium mb-3">
-                  {internship.organization}
-                </p>
-
-                {/* Metadata Section */}
-                <div className="flex flex-col gap-2 text-sm text-gray-600">
-                  <div className="flex items-center gap-2">
-                    <span className="text-purple-500">📍</span>
-                    <p>{internship.location}</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-blue-500">🕒</span>
-                    <p>{internship.duration}</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-green-500">💰</span>
-                    <p>{internship.stipend}</p>
-                  </div>
-                </div>
-
-                {/* Bottom Section */}
-                <div className="flex justify-between items-center mt-5">
-                  <div className="text-gray-500 text-sm flex gap-3">
-                    <span>👁️ {internship.views} Views</span>
-                    <span>⏳ {internship.daysLeft} Days Left</span>
-                  </div>
-                  <button className="px-4 py-2 bg-[#0a66c2] badge text-white text-sm font-semibold rounded-full hover:opacity-90 transition">
-                    View Details
-                  </button>
-                </div>
-              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+              <h3 className="z-10 text-white text-2xl font-bold">{internship.title}</h3>
             </div>
 
+            {/* Main Content */}
+            <div className="p-5">
+              {/* Organization Name */}
+              <p className="text-gray-700 text-lg font-medium mb-3">
+                {internship.organization}
+              </p>
+
+              {/* Metadata Section */}
+              <div className="flex flex-col gap-2 text-sm text-gray-600">
+                <div className="flex items-center gap-2">
+                  <span className="text-purple-500">📍</span>
+                  <p>{internship.location}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-blue-500">🕒</span>
+                  <p>{internship.duration}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-green-500">💰</span>
+                  <p>{internship.stipend}</p>
+                </div>
+              </div>
+
+              {/* Bottom Section */}
+              <div className="flex justify-between items-center mt-5">
+                <div className="text-gray-500 text-sm flex gap-3">
+                  <span>👁️ {internship.views} Views</span>
+                  <span>⏳ {internship.daysLeft} Days Left</span>
+                </div>
+                <button className="px-4 py-2 bg-[#0a66c2] badge text-white text-sm font-semibold rounded-full hover:opacity-90 transition"
+                onClick={() => setModal(internship)}>
+                  View Details
+                </button>
+              </div>
+            </div>
+          </div>
           ))}
         </div>
         <div className="flex justify-center gap-2 mt-5">
@@ -253,8 +258,11 @@ const App = () => {
           </button>
         </div>
       </div>
-
-      {/* Latest Jobs Section */}
+      <Modal
+        internship={modal}
+        onClose={() => setModal(null)}
+      />
+       {/* Latest Jobs Section */}
       <div className="w-full text-center mb-10">
         <h2 className="text-3xl font-bold mb-5">Fresh Jobs</h2>
         <div className="grid grid-cols-4 gap-5">
@@ -300,7 +308,8 @@ const App = () => {
                   <span>👁️ {job.views} Views</span>
                   <span>⏳ {job.daysLeft} Days Left</span>
                 </div>
-                <button className="px-4 py-2 bg-[#0a66c2] badge text-white text-sm font-semibold rounded-full hover:opacity-90 transition">
+                <button className="px-4 py-2 bg-[#0a66c2] badge text-white text-sm font-semibold rounded-full hover:opacity-90 transition"
+                onClick={() => setModal(job)}>
                   View Details
                 </button>
               </div>
@@ -325,6 +334,10 @@ const App = () => {
           </button>
         </div>
       </div>
+      <Modal
+        internship={modal}
+        onClose={() => setModal(null)}
+      />
       {/* Latest Courses Section */}
       <div className="w-full text-center mb-10">
         <h2 className="text-3xl font-bold mb-5">Kickstart</h2>
@@ -336,7 +349,7 @@ const App = () => {
           >
             {/* Top Section with Gradient and Icon */}
             <div
-              className={`relative w-full h-28 bg-gradient-to-r ${course.bgColor} flex items-center justify-center`}
+              className={`relative w-full h-28 ${course.bgColor} flex items-center justify-center`}
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
               <h3 className="z-10 text-white text-2xl font-bold">{course.title}</h3>
@@ -371,7 +384,8 @@ const App = () => {
                   <span>👁️ {course.views} Views</span>
                   <span>⏳ {course.daysLeft} Days Left</span>
                 </div>
-                <button className="px-4 py-2 bg-[#0a66c2] badge text-white text-sm font-semibold rounded-full hover:opacity-90 transition">
+                <button className="px-4 py-2 bg-[#0a66c2] badge text-white text-sm font-semibold rounded-full hover:opacity-90 transition"
+                onClick={() => setModal(course)}>
                   View Details
                 </button>
               </div>
@@ -396,6 +410,10 @@ const App = () => {
           </button>
         </div>
       </div>
+      <Modal
+        internship={modal}
+        onClose={() => setModal(null)}
+      />
     </div>
   );
 };
