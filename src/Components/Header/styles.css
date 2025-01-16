@@ -1,0 +1,25 @@
+.badges{
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    background-image: linear-gradient(
+      -60deg,
+      #ffffff00 0%,
+      #ffffff00 40%,
+      #ffffff44 40%,
+      #ffffff44 60%,
+      #ffffff00 60%,
+      #ffffff00 100%
+    );
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    animation: shimmer 3s infinite;
+  }
+  @keyframes shimmer {
+    0% {
+      background-position-x: 150%;
+    }
+    40%,
+    100% {
+      background-position-x:-150%;
+    }
+  }  
