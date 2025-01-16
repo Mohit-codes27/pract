@@ -8,7 +8,10 @@ const internshipsData = [
     hiringStatus: "Actively Hiring",
     views: '5k',
     daysLeft: '3',
-    bgColor: 'bg-gradient-to-r from-purple-500 via-violet-500 to-blue-500'
+    bgColor: 'bg-gradient-to-r from-purple-500 via-violet-500 to-blue-500',
+    company: 'company 1',
+    eligible: '12th Pass',
+    img: 'https://th.bing.com/th/id/OIG3.80EN2JPNx7kp5VqoB5kz'
   },
   {
     id: 2,
@@ -19,7 +22,10 @@ const internshipsData = [
     hiringStatus: "Actively Hiring",
     views: '10k',
     daysLeft: '5',
-    bgColor: 'bg-gradient-to-r from-[#ea8d8d] to-[#ff8c8c]'
+    bgColor: 'bg-gradient-to-r from-[#ea8d8d] to-[#ff8c8c]',
+    company: 'company 2',
+    eligible: '12th Pass',
+    img: 'https://th.bing.com/th/id/OIG3.80EN2JPNx7kp5VqoB5kz'
   },
   {
     id: 3,
@@ -30,7 +36,10 @@ const internshipsData = [
     hiringStatus: "Actively Hiring",
     views: '1k',
     daysLeft: '1',
-    bgColor: 'bg-gradient-to-r from-green-700 via-green-400 to-green-200'
+    bgColor: 'bg-gradient-to-r from-green-700 via-green-400 to-green-200',
+    company: 'company 3',
+    eligible: '12th Pass',
+    img: 'https://th.bing.com/th/id/OIG3.80EN2JPNx7kp5VqoB5kz'
   },
   {
     id: 4,
@@ -41,7 +50,10 @@ const internshipsData = [
     hiringStatus: "Actively Hiring",
     views: '800',
     daysLeft: '8',
-    bgColor: 'bg-gradient-to-r from-[#17ead9] to-[#6078ea]'
+    bgColor: 'bg-gradient-to-r from-[#17ead9] to-[#6078ea]',
+    company: 'company 4',
+    eligible: '12th Pass',
+    img: 'https://th.bing.com/th/id/OIG3.80EN2JPNx7kp5VqoB5kz'
   },
   {
     id: 5,
@@ -52,7 +64,10 @@ const internshipsData = [
     hiringStatus: "Actively Hiring",
     views: '15k',
     daysLeft: '10',
-    bgColor: 'bg-gradient-to-r from-purple-500 via-violet-500 to-blue-500'
+    bgColor: 'bg-gradient-to-r from-purple-500 via-violet-500 to-blue-500',
+    company: 'company 5',
+    eligible: '12th Pass',
+    img: 'https://th.bing.com/th/id/OIG3.80EN2JPNx7kp5VqoB5kz'
   },
   {
     id: 6,
@@ -63,7 +78,10 @@ const internshipsData = [
     hiringStatus: "Actively Hiring",
     views: '5k',
     daysLeft: '4',
-    bgColor: 'bg-gradient-to-r from-[#ea8d8d] to-[#ff8c8c]'
+    bgColor: 'bg-gradient-to-r from-[#ea8d8d] to-[#ff8c8c]',
+    company: 'company 6',
+    eligible: '12th Pass',
+    img: 'https://th.bing.com/th/id/OIG3.80EN2JPNx7kp5VqoB5kz'
   },
   {
     id: 7,
