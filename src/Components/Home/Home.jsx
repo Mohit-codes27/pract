@@ -135,6 +135,7 @@ const App = () => {
             alt="Mentorships"
             className="w-20 h-20"
           />
+          
           <div className="text-center">
             <h3 className="text-lg font-bold">Mentorships</h3>
             <p>Guidance From Top Mentors</p>
