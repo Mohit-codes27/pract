@@ -5,7 +5,10 @@ import jobsData from "./jobsData";
 import coursesData from "./coursesData";
 import "./style.css";
 import Modal from './Modal'
+<<<<<<< HEAD
 import { Link } from 'react-router-dom';
+=======
+>>>>>>> 400b917436e39f286f010d7b2ab7699bd43d13b2
 
 const App = () => {
   // State for managing carousel index and animation control
@@ -136,6 +139,7 @@ const App = () => {
             alt="Mentorships"
             className="w-20 h-20"
           />
+          
           <div className="text-center">
             <h3 className="text-lg font-bold">Mentorships</h3>
             <p>Guidance From Top Mentors</p>
@@ -169,7 +173,11 @@ const App = () => {
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4bEjjPtFTPwUysJYwuTr4gUDF46AXpWs72A&s"
             alt="Skills"
             className="w-20 h-20"
+<<<<<<< HEAD
             />
+=======
+          />
+>>>>>>> 400b917436e39f286f010d7b2ab7699bd43d13b2
           <div className="text-center">
             <h3 className="text-lg font-bold">Study To Abroad</h3>
             <p>Enhance Your Skills</p>
