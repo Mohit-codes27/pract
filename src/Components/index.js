@@ -11,5 +11,6 @@ import SignUp2 from './SignUp2'
 import SignUp from './SignUp'
 import AuthLayout from './AuthLayout'
 import Modal from './Home/Modal'
+import AbroadPage from './Abroad/AbroadPage';
 
-export {Header, LogoutBtn, Footer, Home, About, Contact, Login, Input, Button,SignUp2, AuthLayout, SignUp, Modal};
+export {Header, LogoutBtn, Footer, Home, About, Contact, Login, Input, Button,SignUp2, AuthLayout, SignUp, Modal, AbroadPage};

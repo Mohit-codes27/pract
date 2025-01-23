@@ -1,23 +1,29 @@
-import React, {useId} from 'react'
+import React, { useId } from 'react';
 
-const Input = React.forwardRef( function Input({
-    label,
-    type = 'text',
-    className = "",
-    ...props
-}, ref){
-    const id = useId()
-    return(
-        <div className='w-full'>
-            {label && <label className='hidden' htmlFor={id}>{label}</label>}
-            <input type={type}
-            className={`w-[300px] mt-2 py-3 px-3 rounded-lg bg-[#eff7fc] border border-gray-400 text-gray-800 font-semibold focus:border-blue-500 focus:bg-white focus:outline-none ${className}`}
-            ref={ref}
-            {...props}
-            id={id}
-            />
-        </div>
-    )
-})
+const Input = React.forwardRef(function Input(
+  { label, type = 'text', className = '', ...props },
+  ref
+) {
+  const id = useId();
+  return (
+    <div className="w-full mb-6">
+      {label && (
+        <label
+          htmlFor={id}
+          className="block text-sm font-medium text-gray-700 mb-2"
+        >
+          {label}
+        </label>
+      )}
+      <input
+        type={type}
+        id={id}
+        ref={ref}
+        className={`w-full py-3 px-4 rounded-md bg-gray-50 border border-gray-300 text-gray-800 placeholder-gray-400 shadow-sm focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition duration-200 ease-in-out ${className}`}
+        {...props}
+      />
+    </div>
+  );
+});
 
-export default Input
+export default Input;

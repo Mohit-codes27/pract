@@ -5,6 +5,7 @@ import jobsData from "./jobsData";
 import coursesData from "./coursesData";
 import "./style.css";
 import Modal from './Modal'
+import { Link } from 'react-router-dom';
 
 const App = () => {
   // State for managing carousel index and animation control
@@ -131,9 +132,9 @@ const App = () => {
         </div>
         <div className="bg-gradient-to-r from-purple-100 to-pink-100 p-5 rounded-lg flex flex-col items-center justify-center gap-3 transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl h-36 w-72">
           <img
-            src="/path-to-your-image/mentorships.png"
+            src="https://www.thebalancemoney.com/thmb/A_uhaT0yyVle46Bfki8domRJ9Mo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/colleagues-business-woman-working-978531556-b538d8fc0ddc492db50b9189235b2bc8.jpg"
             alt="Mentorships"
-            className="w-16 h-16"
+            className="w-20 h-20"
           />
           <div className="text-center">
             <h3 className="text-lg font-bold">Mentorships</h3>
@@ -142,9 +143,9 @@ const App = () => {
         </div>
         <div className="bg-gradient-to-r from-cyan-100 to-blue-100 p-5 rounded-lg flex flex-col items-center justify-center gap-3 transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl h-36 w-72">
           <img
-            src="/path-to-your-image/jobs.png"
+            src="https://eduauraapublic.s3.ap-south-1.amazonaws.com/webassets/images/blogs/highest-paying-jobs-in-india.jpg"
             alt="Jobs"
-            className="w-16 h-16"
+            className="w-20 h-20"
           />
           <div className="text-center">
             <h3 className="text-lg font-bold">Jobs</h3>
@@ -153,31 +154,32 @@ const App = () => {
         </div>
         <div className="bg-gradient-to-r from-orange-200 to-yellow-300 p-5 rounded-lg flex flex-col items-center justify-center gap-3 transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl h-36 w-72">
           <img
-            src="/path-to-your-image/jobs.png"
+            src="https://www.cheggindia.com/wp-content/uploads/2022/10/Which-Post-Graduation-Course-you-need-to-pursue-in-todays-economy-1.png"
             alt="Courses"
-            className="w-16 h-16"
+            className="w-20 h-20"
           />
           <div className="text-center">
             <h3 className="text-lg font-bold">Courses</h3>
             <p>Explore Fresh Courses</p>
           </div>
         </div>
-        <div className="bg-gradient-to-r from-orange-300 to-red-200 p-5 rounded-lg flex flex-col items-center justify-center gap-3 transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl h-36 w-72">
+
+        <Link to="/abroad" className="bg-gradient-to-r from-orange-300 to-red-200 p-5 rounded-lg flex flex-col items-center justify-center gap-3 transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl h-36 w-72">
           <img
-            src="/path-to-your-image/jobs.png"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4bEjjPtFTPwUysJYwuTr4gUDF46AXpWs72A&s"
             alt="Skills"
-            className="w-16 h-16"
-          />
+            className="w-20 h-20"
+            />
           <div className="text-center">
-            <h3 className="text-lg font-bold">Skills</h3>
+            <h3 className="text-lg font-bold">Study To Abroad</h3>
             <p>Enhance Your Skills</p>
           </div>
-        </div>
+        </Link>
         <div className="bg-gradient-to-r from-rose-300 to-pink-200 p-5 rounded-lg flex flex-col items-center justify-center gap-3 transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl h-36 w-72">
           <img
-            src="/path-to-your-image/jobs.png"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0k6L-23Du-vUBkbLtUdLPRmiHY2-MgdRaIw&s"
             alt="More"
-            className="w-16 h-16"
+            className="w-20 h-20"
           />
           <div className="text-center">
             <p>Book a Free </p>

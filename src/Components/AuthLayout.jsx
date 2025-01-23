@@ -2,28 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
- export default function Protected({children, authentication = true}) {
-
+export default function Protected({ children, authentication = true }) {
     const navigate = useNavigate();
     const [loader, setLoader] = useState(true);
-    const authStatus = useSelector(state=> state.auth.status)
+    const authStatus = useSelector(state => state.auth.status);
 
-    useEffect(()=>{
-        //TODO: make it more easy to understand
-        // if(authStatus === true){
-        //     navigate("/")
-        // }else if(authStatus === false){
-        //     navigate("/login")
-        // }
+    useEffect(() => {
+        // Wait until authStatus is available
+        if (authStatus === undefined) return; // Waiting for authStatus to be defined
 
-        if(authentication && authStatus !== authentication){
-            navigate("/login")
-        }else if(!authentication && authStatus !== authentication){
-            navigate("/")
+        if (authentication && authStatus !== authentication) {
+            navigate("/login");
+        } else if (!authentication && authStatus !== authentication) {
+            navigate("/");
+        } else {
+            setLoader(false);
         }
-        setLoader(false)
-    }, [authStatus, navigate, authentication])
+    }, [authStatus, navigate, authentication]);
 
-  return loader ? <h1>Loading..</h1> : <>{children}</>
+    if (loader) {
+        return <h1>Loading...</h1>;
+    }
+
+    return <>{children}</>;
 }
-

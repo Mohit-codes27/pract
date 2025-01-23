@@ -7,7 +7,7 @@ import Home from './Components/Home/Home.jsx'
 import About from './Components/About/About.jsx'
 import Contact from './Components/Contact/Contact.jsx'
 import Information from './Components/Information/Information.jsx'
-import { AuthLayout, SignUp, Login, SignUp2 } from './Components/index.js'
+import { AuthLayout, SignUp, Login, SignUp2, AbroadPage } from './Components/index.js'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
 
@@ -48,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: '/information',
         element: <Information/>
+      },
+      {
+        path: '/abroad',
+        element: <AbroadPage/>
       },
       {
         path: '/login',

@@ -1,8 +1,8 @@
 import { use } from 'react';
-import conf from '../Components/conf/conf'
+import conf from '../Components/conf/conf';
+
 
 import { Client, Account, ID } from "appwrite";
-import { data, useActionData } from 'react-router-dom';
 
 export class AuthService {
     client = new Client();
@@ -51,7 +51,9 @@ export class AuthService {
     async getPhone() {
         try {
             const userData = await this.getCurrentUser();
-            return userData.prefs.phone; // Access phone from preferences
+            return (
+                userData.prefs.phone
+            ); // Access phone from preferences
         } catch (error) {
             throw error;
         }
