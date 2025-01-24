@@ -33,18 +33,27 @@ function SignUp() {
     const createAccount = async (data) => {
         setError("");
         try {
-            const userData = await authService.createAccount(data);
+            const userData = await authService.createAccount({
+                email: data.email,
+                password: data.password,
+                name: data.name,
+                phone: data.phone,
+                city: data.city,
+                company: selectedOptions.company, // From state
+                work: selectedOptions.work,       // From state
+                role: selectedOptions.role,       // From state
+                address: data.address,
+            });
+    
             if (userData) {
-                const currentUser = await authService.getCurrentUser();
-                if (currentUser) {
-                    dispatch(login(currentUser));
-                    navigate('/');
-                }
+                dispatch(login(userData)); // Dispatch user data to Redux store
+                navigate('/');
             }
         } catch (error) {
             setError(error.message || "Something went wrong. Please try again.");
         }
     };
+    
 
     const nextStep = () => setStep((prev) => Math.min(prev + 1, 2));
     const prevStep = () => setStep((prev) => Math.max(prev - 1, 1));

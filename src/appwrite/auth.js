@@ -1,7 +1,4 @@
-import { use } from 'react';
 import conf from '../Components/conf/conf';
-
-
 import { Client, Account, ID } from "appwrite";
 
 export class AuthService {
@@ -15,76 +12,87 @@ export class AuthService {
         this.account = new Account(this.client);
     }
 
-    async createAccount({ email, password, name, phone }) {
+    async createAccount({
+        email,
+        password,
+        name,
+        phone,
+        city,
+        company,
+        work,
+        role,
+        address,
+        gender,
+        languages,
+        type,
+    }) {
         try {
             // Step 1: Create the user account
             const userAccount = await this.account.create(ID.unique(), email, password, name);
-    
+
             if (userAccount) {
                 // Step 2: Log in the user
-                return this.login({ email, password, phone });
+                await this.login({ email, password });
+
+                // Step 3: Save additional user data as preferences
+                await this.account.updatePrefs({
+                    phone,
+                    city,
+                    company,
+                    work,
+                    role,
+                    address,
+                    gender,
+                    languages,
+                    type,
+                });
+
+                // Step 4: Fetch and return the user data
+                const userData = await this.getCurrentUser();
+                return userData;
             }
         } catch (error) {
             throw error;
         }
     }
 
-    async login({ email, password, phone }) {
+    async login({ email, password }) {
         try {
+            // Create a session for the user
             await this.account.createEmailPasswordSession(email, password);
-            await this.account.updatePrefs({ phone });
-    
-                // Step 4: Fetch and return the user data
-                const userData = await this.getCurrentUser();
 
-                return{
-                    userData,
-                };
-
-        } catch (error) {
-            return error;
-        }
-    }
-    
-    
-
-    async getPhone() {
-        try {
+            // Fetch and return the user data
             const userData = await this.getCurrentUser();
-            return (
-                userData.prefs.phone
-            ); // Access phone from preferences
+            return userData;
         } catch (error) {
             throw error;
         }
     }
-    
-    
-
-// async login(loginDetail) {
-//     try {
-//         const session = await this.account.createEmailPasswordSession(loginDetail.email, loginDetail.password);
-//         const userData = await this.getCurrentUser();
-//         return { session, userData };
-//     } catch (error) {
-//         return error;
-//     }
-// }
 
     async getCurrentUser() {
         try {
             return await this.account.get();
         } catch (error) {
-            console.log("Appwrite service :: getCurrentUser :: error", error)
+            console.error("AuthService :: getCurrentUser :: error", error);
+            throw error;
         }
-        return null;
+    }
+
+    async getPhone() {
+        try {
+            const userData = await this.getCurrentUser();
+            return userData.prefs.phone; // Access phone from preferences
+        } catch (error) {
+            throw error;
+        }
     }
 
     async logout() {
         try {
             await this.account.deleteSessions();
         } catch (error) {
-            console.log("Appwrite service :: logout :: error", error)
+            console.error("AuthService :: logout :: error", error);
+            throw error;
         }
     }
 }
@@ -92,4 +100,3 @@ export class AuthService {
 const authService = new AuthService();
 
 export default authService;
-

@@ -15,47 +15,31 @@ function SignUp2() {
     const [selectedLanguages, setSelectedLanguages] = useState([]);
     const [selectedType, setSelectedType] = useState([]);
 
+    const toggleSelection = (value, selectedList, setSelectedList, fieldName) => {
+        const updatedList = selectedList.includes(value)
+            ? selectedList.filter((item) => item !== value)
+            : [...selectedList, value];
+        setSelectedList(updatedList);
+        setValue(fieldName, updatedList.join(',')); // Update the form value
+    };
 
-    const toggleLanguageSelection = (language) => {
-        const updatedLanguages = selectedLanguages.includes(language)
-            ? selectedLanguages.filter((lang) => lang !== language)
-            : [...selectedLanguages, language];
-        setSelectedLanguages(updatedLanguages);
-        setValue('languages', updatedLanguages.join(',')); // Update the form value
-    };
-    
-    const toggleTypeSelection = (type) => {
-        const updatedTypes = selectedType.includes(type)
-            ? selectedType.filter((ty) => ty !== type)
-            : [...selectedType, type];
-        setSelectedType(updatedTypes);
-        setValue('type', updatedTypes.join(',')); // Update the form value
-    };
-    
-    const create = async (data) => {
+    const createAccount = async (data) => {
         setError("");
-        console.log("Form Data Submitted:", data); // Debug: Log form data before submission
         if (!data.gender || !data.languages || !data.type) {
             setError("Please fill all required fields.");
             return;
         }
-    
+
         try {
             const userData = await authService.createAccount(data);
             if (userData) {
-                const user = await authService.getCurrentUser();
-                if (user) {
-                    dispatch(login(user));
-                    navigate('/');
-                }
+                dispatch(login(userData));
+                navigate('/');
             }
         } catch (error) {
-            setError(error.message || "An error occurred during sign up.");
+            setError(error.message || "An error occurred during sign-up.");
         }
     };
-    
-    
-
 
     const nextStep = () => setStep((prev) => Math.min(prev + 1, 2));
     const prevStep = () => setStep((prev) => Math.max(prev - 1, 1));
@@ -75,58 +59,52 @@ function SignUp2() {
 
                     <div className="mb-6">
                         <div className="flex items-center justify-center gap-4">
-                            <div
-                                className={`w-1/2 h-2 rounded-full ${step === 1 ? 'bg-blue-600' : 'bg-gray-300'}`}
-                            ></div>
-                            <div
-                                className={`w-1/2 h-2 rounded-full ${step === 2 ? 'bg-blue-600' : 'bg-gray-300'}`}
-                            ></div>
+                            <div className={`w-1/2 h-2 rounded-full ${step === 1 ? 'bg-blue-600' : 'bg-gray-300'}`} />
+                            <div className={`w-1/2 h-2 rounded-full ${step === 2 ? 'bg-blue-600' : 'bg-gray-300'}`} />
                         </div>
-                        <p className="text-center mt-2 text-gray-600">
-                            Step {step} of 2
-                        </p>
+                        <p className="text-center mt-2 text-gray-600">Step {step} of 2</p>
                     </div>
 
-                    <form className="flex flex-col" onSubmit={handleSubmit(create)}>
+                    <form className="flex flex-col" onSubmit={handleSubmit(createAccount)}>
                         {step === 1 && (
                             <>
                                 <Input
                                     label="Name"
                                     placeholder="Enter Your Name"
-                                    className=""
                                     type="text"
-                                    {...register("name", { required: true })}
+                                    {...register("name", { required: "Name is required." })}
                                 />
+                                {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
 
                                 <Input
                                     label="Email"
                                     placeholder="Enter Your Email"
-                                    className=""
                                     type="email"
                                     {...register("email", {
-                                        required: true,
-                                        validate: {
-                                            matchPattern: (value) =>
-                                                /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) || "Invalid email",
+                                        required: "Email is required.",
+                                        pattern: {
+                                            value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+                                            message: "Invalid email address.",
                                         },
                                     })}
                                 />
+                                {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
 
                                 <Input
                                     label="Password"
                                     type="password"
                                     placeholder="Create Your Password"
-                                    className=""
-                                    {...register("password", { required: true })}
+                                    {...register("password", { required: "Password is required." })}
                                 />
+                                {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
 
                                 <Input
                                     label="Phone Number"
                                     type="tel"
                                     placeholder="Enter Your Phone Number"
-                                    className=""
-                                    {...register("phone", { required: true })}
+                                    {...register("phone", { required: "Phone number is required." })}
                                 />
+                                {errors.phone && <p className="text-red-500 text-sm">{errors.phone.message}</p>}
                             </>
                         )}
 
@@ -136,13 +114,14 @@ function SignUp2() {
                                     <label className="block text-gray-700">City</label>
                                     <select
                                         className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
-                                        {...register("city", { required: true })}
+                                        {...register("city", { required: "City is required." })}
                                     >
                                         <option value="">Select City</option>
                                         <option value="Delhi">Delhi</option>
                                         <option value="Mumbai">Mumbai</option>
                                         <option value="Bangalore">Bangalore</option>
                                     </select>
+                                    {errors.city && <p className="text-red-500 text-sm">{errors.city.message}</p>}
                                 </div>
 
                                 <div className="mb-4">
@@ -152,38 +131,24 @@ function SignUp2() {
                                             <button
                                                 key={gender}
                                                 type="button"
-                                                className={`flex items-center gap-2 px-4 py-2 border rounded-full ${watch('gender') === gender
-                                                        ? 'bg-blue-600 text-white' // Highlight selected
-                                                        : 'bg-gray-100 hover:bg-gray-200'
-                                                    } focus:outline-none focus:ring-2 focus:ring-blue-300`}
-                                                onClick={() => setValue('gender', gender)} // Update the gender value
+                                                className={`px-4 py-2 border rounded-full ${watch('gender') === gender
+                                                    ? 'bg-blue-600 text-white'
+                                                    : 'bg-gray-100 hover:bg-gray-200'
+                                                }`}
+                                                onClick={() => setValue('gender', gender)}
                                             >
-                                                <img
-                                                    src={
-                                                        gender === 'Female'
-                                                            ? 'https://static.vecteezy.com/system/resources/previews/017/178/227/non_2x/female-symbol-isolated-icon-on-transparent-background-free-png.png'
-                                                            : gender === 'Male'
-                                                                ? 'https://static.vecteezy.com/system/resources/previews/017/178/570/non_2x/male-symbol-isolated-icon-on-transparent-background-free-png.png'
-                                                                : 'https://img.icons8.com/emoji/48/000000/star-emoji.png'
-                                                    }
-                                                    alt={gender}
-                                                    className="w-5 h-5"
-                                                />
                                                 {gender}
                                             </button>
                                         ))}
                                     </div>
-                                    {/* Hidden input to track the selected gender */}
                                     <input
                                         type="hidden"
-                                        {...register('gender', { required: 'Please select your gender.' })}
+                                        {...register('gender', { required: "Please select your gender." })}
                                     />
                                     {errors.gender && <p className="text-red-500 text-sm mt-1">{errors.gender.message}</p>}
                                 </div>
 
-
-
-                                <div className="mb-4 w-[80%]">
+                                <div className="mb-4">
                                     <label className="block text-gray-700 mb-2">Languages you know</label>
                                     <div className="flex flex-wrap gap-2">
                                         {['English', 'Hindi', 'Telugu', 'Tamil', 'Marathi', 'French', 'Japanese'].map((language) => (
@@ -191,24 +156,26 @@ function SignUp2() {
                                                 key={language}
                                                 type="button"
                                                 className={`px-4 py-2 border rounded-full ${selectedLanguages.includes(language)
-                                                    ? 'bg-blue-600 text-white' // Highlight selected
+                                                    ? 'bg-blue-600 text-white'
                                                     : 'bg-gray-100 hover:bg-gray-200'
-                                                    } focus:outline-none focus:ring focus:ring-blue-300`}
-                                                onClick={() => toggleLanguageSelection(language)}
+                                                }`}
+                                                onClick={() =>
+                                                    toggleSelection(language, selectedLanguages, setSelectedLanguages, 'languages')
+                                                }
                                             >
                                                 {language}
                                             </button>
                                         ))}
                                     </div>
-                                    {/* Hidden input to track the selected languages */}
                                     <input
                                         type="hidden"
                                         value={selectedLanguages.join(',')}
-                                        {...register('languages', { required: true })}
+                                        {...register('languages', { required: "Please select at least one language." })}
                                     />
+                                    {errors.languages && <p className="text-red-500 text-sm mt-1">{errors.languages.message}</p>}
                                 </div>
 
-                                <div className="mb-4 w-[80%]">
+                                <div className="mb-4">
                                     <label className="block text-gray-700 mb-2">Type</label>
                                     <div className="flex flex-wrap gap-2">
                                         {['College Student', 'Fresher', 'Working Professional', 'School Student', 'Woman returning to work'].map((type) => (
@@ -216,24 +183,24 @@ function SignUp2() {
                                                 key={type}
                                                 type="button"
                                                 className={`px-4 py-2 border rounded-full ${selectedType.includes(type)
-                                                    ? 'bg-blue-600 text-white' // Highlight selected
+                                                    ? 'bg-blue-600 text-white'
                                                     : 'bg-gray-100 hover:bg-gray-200'
-                                                    } focus:outline-none focus:ring focus:ring-blue-300`}
-                                                onClick={() => toggleTypeSelection(type)}
+                                                }`}
+                                                onClick={() =>
+                                                    toggleSelection(type, selectedType, setSelectedType, 'type')
+                                                }
                                             >
                                                 {type}
                                             </button>
                                         ))}
                                     </div>
-                                    {/* Hidden input to track the selected types */}
                                     <input
                                         type="hidden"
                                         value={selectedType.join(',')}
-                                        {...register('type', { required: true })}
+                                        {...register('type', { required: "Please select at least one type." })}
                                     />
+                                    {errors.type && <p className="text-red-500 text-sm mt-1">{errors.type.message}</p>}
                                 </div>
-
-
                             </>
                         )}
 
@@ -247,7 +214,6 @@ function SignUp2() {
                                     Previous
                                 </Button>
                             )}
-
                             {step < 2 ? (
                                 <Button
                                     type="button"

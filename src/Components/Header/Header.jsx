@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react"; 
 import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import authService from "../../appwrite/auth";
 import { LogoutBtn } from '../index';
-import './styles.css'
+import './styles.css';
 
 export default function Header() {
     const [dropdown, setDropdown] = useState("");
+    const [userName, setUserName] = useState(""); // To store the user's name
     const internshipsRef = useRef(null);
     const jobsRef = useRef(null);
     const coursesRef = useRef(null);
@@ -16,6 +17,23 @@ export default function Header() {
     const toggleDropdown = (dropdownName) => {
         setDropdown((prev) => (prev === dropdownName ? "" : dropdownName));
     };
+
+    useEffect(() => {
+        const fetchUserName = async () => {
+            try {
+                const userData = await authService.getCurrentUser();
+                if (userData) {
+                    setUserName(userData.name); // Update the user's name
+                }
+            } catch (error) {
+                console.error("Error fetching user name:", error);
+            }
+        };
+
+        if (authStatus) {
+            fetchUserName(); // Fetch the user's name if logged in
+        }
+    }, [authStatus]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -138,10 +156,12 @@ export default function Header() {
                     )}
                     {authStatus && (
                         <div className="flex items-center lg:order-2 w-[15vw] justify-center">
+                        <span className="mr-4 text-[#0a66c2] font-medium">
+                            {userName ? `Hi, ${userName}` : "Hi!"}
+                        </span>
+                        <LogoutBtn />
+                    </div>
 
-
-                            <LogoutBtn />
-                        </div>
                     )
                         }
                     <div
