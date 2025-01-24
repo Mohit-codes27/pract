@@ -80,8 +80,4 @@ const Modal = ({ internship, onClose }) => {
     );
 };
 
-<<<<<<< HEAD
 export default Modal;
-=======
-export default Modal;
->>>>>>> ea3e703584ace1851bf3094472e8abb4f2b7b35b
