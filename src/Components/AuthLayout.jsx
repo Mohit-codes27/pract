@@ -8,21 +8,30 @@ export default function Protected({ children, authentication = true }) {
     const authStatus = useSelector(state => state.auth.status);
 
     useEffect(() => {
-        // Wait until authStatus is available
-        if (authStatus === undefined) return; // Waiting for authStatus to be defined
-
-        if (authentication && authStatus !== authentication) {
-            navigate("/login");
-        } else if (!authentication && authStatus !== authentication) {
-            navigate("/");
-        } else {
+        const timeout = setTimeout(() => {
             setLoader(false);
-        }
+            if (authStatus === undefined) return; // Wait for authStatus to resolve
+            
+            if (authStatus !== authentication) {
+                navigate(authentication ? "/login" : "/");
+            } else {
+                setLoader(false);
+            }
+        }, 2000);
+        return () => clearTimeout(timeout);
     }, [authStatus, navigate, authentication]);
 
     if (loader) {
-        return <h1>Loading...</h1>;
+        return (
+            <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+                <div className="w-12 h-12 border-4 border-gray-300 border-t-[#0a66c2] rounded-full animate-spin"></div>
+                <h2 className="mt-4 text-lg font-medium text-gray-700">
+                    Loading, please wait...
+                </h2>
+            </div>
+        );
     }
+    
 
     return <>{children}</>;
 }

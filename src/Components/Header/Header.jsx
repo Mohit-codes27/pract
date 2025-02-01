@@ -74,10 +74,10 @@ export default function Header() {
                                 </span>
                             </button>
                             {dropdown === "internships" && (
-                                <div ref={internshipsRef} className="absolute left-0 flex flex-col bg-transparent border shadow-lg mt-3.5 w-64 rounded-xl">
-                                    <Link to="#" className="px-4 py-2 rounded-lg hover:bg-gray-100 border-b-2">Work from Home</Link>
-                                    <Link to="#" className="px-4 py-2 rounded-lg hover:bg-gray-100 border-b-2 border-t-2">Internship in Bangalore</Link>
-                                    <Link to="#" className="px-4 py-2 rounded-lg hover:bg-gray-100 border-t-2">Internship in Delhi</Link>
+                                <div ref={internshipsRef} className="absolute left-0 flex flex-col bg-white border shadow-lg mt-3.5 w-64 rounded-xl">
+                                    <Link to="/internfilter" className="px-4 py-2 rounded-lg hover:bg-gray-100 border-b-2">Work from Home</Link>
+                                    <Link to="/internfilter" className="px-4 py-2 rounded-lg hover:bg-gray-100 border-b-2 border-t-2">Internship in Bangalore</Link>
+                                    <Link to="/internfilter" className="px-4 py-2 rounded-lg hover:bg-gray-100 border-t-2">Internship in Delhi</Link>
                                 </div>
                             )}
                         </div>
@@ -93,9 +93,9 @@ export default function Header() {
                             </button>
                             {dropdown === "jobs" && (
                                 <div ref={jobsRef} className="absolute left-0 flex flex-col rounded-xl bg-white border shadow-lg mt-3.5 w-64">
-                                    <Link to="#" className="px-4 py-2 hover:bg-gray-100 rounded-lg border-b-2">Full-time Jobs</Link>
-                                    <Link to="#" className="px-4 py-2 hover:bg-gray-100 rounded-lg border-b-2 border-t-2">Part-time Jobs</Link>
-                                    <Link to="#" className="px-4 py-2 hover:bg-gray-100 rounded-lg border-t-2">Remote Jobs</Link>
+                                    <Link to="/jobs" className="px-4 py-2 hover:bg-gray-100 rounded-lg border-b-2">Full-time Jobs</Link>
+                                    <Link to="/jobs" className="px-4 py-2 hover:bg-gray-100 rounded-lg border-b-2 border-t-2">Part-time Jobs</Link>
+                                    <Link to="/jobs" className="px-4 py-2 hover:bg-gray-100 rounded-lg border-t-2">Remote Jobs</Link>
                                 </div>
                             )}
                         </div>
@@ -111,9 +111,9 @@ export default function Header() {
                             </button>
                             {dropdown === "courses" && (
                                 <div ref={coursesRef} className="absolute left-0 flex flex-col rounded-xl bg-white border shadow-lg mt-3.5 w-64">
-                                    <Link to="#" className="px-4 py-2 hover:bg-gray-100 rounded-lg border-b-2">Web Development</Link>
-                                    <Link to="#" className="px-4 py-2 hover:bg-gray-100 rounded-lg border-b-2 border-t-2">Data Science</Link>
-                                    <Link to="#" className="px-4 py-2 hover:bg-gray-100 rounded-lg border-t-2">Digital Marketing</Link>
+                                    <Link to="/courses" className="px-4 py-2 hover:bg-gray-100 rounded-lg border-b-2">Web Development</Link>
+                                    <Link to="/courses" className="px-4 py-2 hover:bg-gray-100 rounded-lg border-b-2 border-t-2">Data Science</Link>
+                                    <Link to="/courses" className="px-4 py-2 hover:bg-gray-100 rounded-lg border-t-2">Digital Marketing</Link>
                                 </div>
                             )}
                         </div>
@@ -165,7 +165,7 @@ export default function Header() {
                     )
                         }
                     <div
-                        className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1"
+                        className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1 mr-48"
                         id="mobile-menu-2 "
                     >
                         <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">

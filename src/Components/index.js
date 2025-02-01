@@ -12,5 +12,13 @@ import SignUp from './SignUp'
 import AuthLayout from './AuthLayout'
 import Modal from './Home/Modal'
 import AbroadPage from './Abroad/AbroadPage';
+import InternshipFilter from "./Dropdowns/Intern/internFilter";
+import InternshipDetail from "./Dropdowns/Intern/InternshipDetail";
+import JobDetail from "./Dropdowns/Job/JobDetail";
+import JobFilter from "./Dropdowns/Job/JobFilter";
+import CourseDetail from "./Dropdowns/Course/CourseDetail";
+import CourseFilter from "./Dropdowns/Course/CourseFilter";
+import BookPage from "./Session/Book";
+import MentorPage from "./Mentorship/Mentor";
 
-export {Header, LogoutBtn, Footer, Home, About, Contact, Login, Input, Button,SignUp2, AuthLayout, SignUp, Modal, AbroadPage};
+export {Header, LogoutBtn, Footer, Home, About, Contact, Login, Input, Button,SignUp2, AuthLayout, SignUp, Modal, AbroadPage, InternshipFilter, InternshipDetail, JobDetail, JobFilter, CourseDetail, CourseFilter, BookPage, MentorPage};

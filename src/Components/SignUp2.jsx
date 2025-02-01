@@ -45,7 +45,7 @@ function SignUp2() {
     const prevStep = () => setStep((prev) => Math.max(prev - 1, 1));
 
     return (
-        <div className="relative flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-blue-800">
+        <div className="relative flex items-center justify-center min-h-screen bg-[#0a66c2]">
             <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg">
                 <div className="p-8">
                     <h2 className="text-2xl font-bold text-center mb-4">Sign up as an Employee</h2>
