@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 function SignUp2() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm();
+    const { register, handleSubmit, watch, setValue, formState: { errors, isSubmitting } } = useForm();
     const [error, setError] = useState("");
     const [step, setStep] = useState(1);
     const [selectedLanguages, setSelectedLanguages] = useState([]);
@@ -134,7 +134,7 @@ function SignUp2() {
                                                 className={`px-4 py-2 border rounded-full ${watch('gender') === gender
                                                     ? 'bg-blue-600 text-white'
                                                     : 'bg-gray-100 hover:bg-gray-200'
-                                                }`}
+                                                    }`}
                                                 onClick={() => setValue('gender', gender)}
                                             >
                                                 {gender}
@@ -158,7 +158,7 @@ function SignUp2() {
                                                 className={`px-4 py-2 border rounded-full ${selectedLanguages.includes(language)
                                                     ? 'bg-blue-600 text-white'
                                                     : 'bg-gray-100 hover:bg-gray-200'
-                                                }`}
+                                                    }`}
                                                 onClick={() =>
                                                     toggleSelection(language, selectedLanguages, setSelectedLanguages, 'languages')
                                                 }
@@ -185,7 +185,7 @@ function SignUp2() {
                                                 className={`px-4 py-2 border rounded-full ${selectedType.includes(type)
                                                     ? 'bg-blue-600 text-white'
                                                     : 'bg-gray-100 hover:bg-gray-200'
-                                                }`}
+                                                    }`}
                                                 onClick={() =>
                                                     toggleSelection(type, selectedType, setSelectedType, 'type')
                                                 }
@@ -226,8 +226,9 @@ function SignUp2() {
                                 <Button
                                     type="submit"
                                     className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+                                    disabled={isSubmitting}
                                 >
-                                    Submit
+                                    {isSubmitting ? "Submitting.." : "Submit"}
                                 </Button>
                             )}
                         </div>

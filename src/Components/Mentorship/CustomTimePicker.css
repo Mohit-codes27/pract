@@ -1,0 +1,104 @@
+/* .custom-timepicker {
+    width: 100%;
+    font-size: 18px;
+    text-align: center;
+    padding: 10px;
+    border: 2px solid #0a66c2;
+    border-radius: 8px;
+    background: #fff;
+    color: #333;
+    transition: all 0.3s ease-in-out;
+}
+
+.react-time-picker__clock {
+    position: fixed !important;  
+    top: 50% !important;       
+    left: 50% !important;    
+    transform: translate(-50%, -50%) !important; 
+    background: white !important;
+    border-radius: 10px !important;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15) !important;
+    border: 2px solid #0a66c2 !important;
+    padding: 10px !important;
+    z-index: 1000 !important;  
+}
+
+.react-clock {
+    border-radius: 50%;
+    border: 3px solid #0a66c2 !important;
+}
+  
+.react-clock__hand__body {
+    background: #0a66c2 !important;
+}
+  
+.react-clock__mark {
+    background: #0a66c2 !important;
+} */
+
+/* Ensure TimePicker container is well-styled */
+.custom-timepicker {
+    width: 100%;
+    font-size: 18px;
+    text-align: center;
+    padding: 10px;
+    border: 2px solid #0a66c2;
+    border-radius: 8px;
+    background: #fff;
+    color: #333;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Full-screen blur effect when clock is open */
+.timepicker-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2); /* Light dark overlay */
+    backdrop-filter: blur(5px); /* Apply blur effect */
+    z-index: 900; /* Ensure it's behind the clock */
+    display: none;
+}
+
+/* Show overlay when active */
+.timepicker-overlay.active {
+    display: block;
+}
+
+/* Ensure the clock popup and container are centered properly */
+.react-time-picker__clock {
+    position: fixed !important;
+    top: 55% !important; /* Move it slightly down */
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    background: white !important;
+    border-radius: 10px !important;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15) !important;
+    border: 2px solid #0a66c2 !important;
+    padding: 12px !important;
+    z-index: 1001 !important; /* Above blur overlay */
+}
+
+/* Ensure only the clock and "Choose Specific Time Slot" button stay clear */
+.no-blur {
+    position: relative;
+    z-index: 1002; /* Above everything */
+}
+
+/* Style the Clock */
+.react-clock {
+    border-radius: 50%;
+    border: 3px solid #0a66c2 !important;
+}
+
+/* Clock Hands */
+.react-clock__hand__body {
+    background: #0a66c2 !important;
+}
+
+/* Clock Marks */
+.react-clock__mark {
+    background: #0a66c2 !important;
+}

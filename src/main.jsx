@@ -5,9 +5,8 @@ import App from './App.jsx'
 import { createBrowserRouter, Route, RouterProvider } from 'react-router-dom'
 import Home from './Components/Home/Home.jsx'
 import About from './Components/About/About.jsx'
-import Contact from './Components/Contact/Contact.jsx'
 import Information from './Components/Information/Information.jsx'
-import { AuthLayout, SignUp, Login, SignUp2, AbroadPage, MentorPage, InternshipFilter, InternshipDetail, JobDetail, JobFilter, CourseDetail, CourseFilter, BookPage } from './Components/index.js'
+import { AuthLayout, SignUp, Setting, PrivacyPage, Contact, Login, SignUp2, ProfilePage, AbroadPage, MentorPage, InternshipFilter, InternshipDetail, JobDetail, JobFilter, CourseDetail, CourseFilter, BookPage } from './Components/index.js'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
 
@@ -29,12 +28,28 @@ const router = createBrowserRouter([
         element: <Information/>
       },
       {
+        path: 'contact',
+        element: <Contact/>
+      },
+      {
+        path: 'privacy',
+        element: <PrivacyPage/>
+      },
+      {
         path: 'abroad',
         element: <AbroadPage/>
       },
       {
+        path: 'setting',
+        element: <Setting/>
+      },
+      {
         path: 'book',
         element: <BookPage/>
+      },
+      {
+        path: 'profile',
+        element: <ProfilePage/>
       },
       {
         path: 'mentor',

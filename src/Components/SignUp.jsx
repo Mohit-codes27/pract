@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 function SignUp() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { register, handleSubmit, setValue } = useForm();
+    const { register, handleSubmit, setValue, formState: {errors, isSubmitting} } = useForm();
     const [error, setError] = useState("");
     const [step, setStep] = useState(1);
     const [selectedOptions, setSelectedOptions] = useState({
@@ -229,8 +229,9 @@ function SignUp() {
                                 <Button
                                     type="submit"
                                     className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+                                    disabled={isSubmitting}
                                 >
-                                    Submit
+                                    {isSubmitting? "Submitting.." : "Submit"}
                                 </Button>
                             )}
                         </div>

@@ -112,8 +112,8 @@ const App = () => {
       {/* Header Section */}
       <div className="text-center mb-10">
         <h1 className="text-4xl font-bold mb-4">InternsWallah</h1>
-        <h2 className="text-2xl font-semibold mt-2">
-          Where Opportunity Finds Talent.
+        <h2 className="text-2xl font-semibold mt-2 text-blue-600">
+          Where Opportunity Finds Talent
         </h2>
         <p className="mt-4 text-lg text-gray-700">
           Explore opportunities from across the globe to grow, showcase skills,

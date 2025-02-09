@@ -75,9 +75,9 @@ export default function Header() {
                             </button>
                             {dropdown === "internships" && (
                                 <div ref={internshipsRef} className="absolute left-0 flex flex-col bg-white border shadow-lg mt-3.5 w-64 rounded-xl">
-                                    <Link to="/internfilter" className="px-4 py-2 rounded-lg hover:bg-gray-100 border-b-2">Work from Home</Link>
-                                    <Link to="/internfilter" className="px-4 py-2 rounded-lg hover:bg-gray-100 border-b-2 border-t-2">Internship in Bangalore</Link>
-                                    <Link to="/internfilter" className="px-4 py-2 rounded-lg hover:bg-gray-100 border-t-2">Internship in Delhi</Link>
+                                    <Link to="/internships" className="px-4 py-2 rounded-lg hover:bg-gray-100 border-b-2">Work from Home</Link>
+                                    <Link to="/internships" className="px-4 py-2 rounded-lg hover:bg-gray-100 border-b-2 border-t-2">Internship in Bangalore</Link>
+                                    <Link to="/internships" className="px-4 py-2 rounded-lg hover:bg-gray-100 border-t-2">Internship in Delhi</Link>
                                 </div>
                             )}
                         </div>

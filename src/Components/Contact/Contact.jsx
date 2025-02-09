@@ -1,143 +1,129 @@
-import React from 'react'
+// import React from 'react'
+
+// export default function About() {
+//   return (
+//       <div className="py-16 bg-[#eff7fc]">
+//           <div className="container m-auto px-6 text-gray-600 md:px-12 xl:px-6">
+//               <div className="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
+//                   <div className="md:5/12 lg:w-5/12">
+//                       <img
+//                           src="https://images.pexels.com/photos/3153201/pexels-photo-3153201.jpeg?cs=srgb&dl=pexels-canvastudio-3153201.jpg&fm=jpg"
+//                           alt="image"
+//                       />
+//                   </div>
+//                   <div className="md:7/12 lg:w-6/12">
+//                       <h2 className="text-2xl text-gray-900 font-bold md:text-4xl">
+//                           React development is carried out by passionate developers
+//                       </h2>
+//                       <p className="mt-6 text-gray-600">
+//                           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum omnis voluptatem
+//                           accusantium nemo perspiciatis delectus atque autem! Voluptatum tenetur beatae unde
+//                           aperiam, repellat expedita consequatur! Officiis id consequatur atque doloremque!
+//                       </p>
+//                       <p className="mt-4 text-gray-600">
+//                           Nobis minus voluptatibus pariatur dignissimos libero quaerat iure expedita at?
+//                           Asperiores nemo possimus nesciunt dicta veniam aspernatur quam mollitia.
+//                       </p>
+//                   </div>
+//               </div>
+//           </div>
+//       </div>
+//   );
+// }
+
+import { Link } from "react-router-dom"; // Corrected import
+import { Mail, MapPin, Clock, MessageCircle } from "lucide-react"; // Added WhatsApp icon
 
 export default function Contact() {
-    return (
-        <div className="relative flex items-top justify-center min-h-[700px] bg-[#eff7fc] sm:items-center sm:pt-0">
-            <div className="max-w-6xl mx-auto sm:px-6 lg:px-8">
-                <div className="mt-8 overflow-hidden">
-                    <div className="grid grid-cols-1 md:grid-cols-2">
-                        <div className="p-6 mr-2 bg-[#70B8FF] sm:rounded-lg">
-                            <h1 className="text-3xl sm:text-4xl text-gray-800 font-extrabold tracking-tight">
-                                Get in touch: 
-                            </h1>
-                            <p className="text-normal text-lg sm:text-xl font-medium text-gray-600 mt-2">
-                                Fill in the form to start a conversation
-                            </p>
-
-                            <div className="flex items-center mt-8 text-gray-600">
-                                <svg
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="1.5"
-                                    viewBox="0 0 24 24"
-                                    className="w-8 h-8 text-gray-500"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="1.5"
-                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                                    />
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="1.5"
-                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                                    />
-                                </svg>
-                                <div className="ml-4 text-md tracking-wide font-semibold w-40">
-                                    Acme Inc, Street, State, Postal Code
-                                </div>
-                            </div>
-
-                            <div className="flex items-center mt-4 text-gray-600">
-                                <svg
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="1.5"
-                                    viewBox="0 0 24 24"
-                                    className="w-8 h-8 text-gray-500"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="1.5"
-                                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                                    />
-                                </svg>
-                                <div className="ml-4 text-md tracking-wide font-semibold w-40">
-                                    +44 1234567890
-                                </div>
-                            </div>
-
-                            <div className="flex items-center mt-2 text-gray-600">
-                                <svg
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="1.5"
-                                    viewBox="0 0 24 24"
-                                    className="w-8 h-8 text-gray-500"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="1.5"
-                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                                    />
-                                </svg>
-                                <div className="ml-4 text-md tracking-wide font-semibold w-40">
-                                    info@acme.org
-                                </div>
-                            </div>
-                        </div>
-
-                        <form className="p-6 flex flex-col justify-center">
-                            <div className="flex flex-col">
-                                <label for="name" className="hidden">
-                                    Full Name
-                                </label>
-                                <input
-                                    type="name"
-                                    name="name"
-                                    id="name"
-                                    placeholder="Full Name"
-                                    className="w-100 mt-2 py-3 px-3 rounded-lg bg-[#eff7fc] border border-gray-400 text-gray-800 font-semibold focus:border-blue-500 focus:bg-white focus:outline-none"
-                                />
-                            </div>
-
-                            <div className="flex flex-col mt-2">
-                                <label for="email" className="hidden">
-                                    Email
-                                </label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    id="email"
-                                    placeholder="Email"
-                                    className="w-100 mt-2 py-3 px-3 rounded-lg bg-[#eff7fc] border border-gray-400 text-gray-800 font-semibold focus:border-blue-500 focus:bg-white focus:outline-none"
-                                />
-                            </div>
-
-                            <div className="flex flex-col mt-2">
-                                <label for="tel" className="hidden">
-                                    Number
-                                </label>
-                                <input
-                                    type="tel"
-                                    name="tel"
-                                    id="tel"
-                                    placeholder="Telephone Number"
-                                    className="w-100 mt-2 py-3 px-3 rounded-lg bg-[#eff7fc] border border-gray-400 text-gray-800 font-semibold focus:border-blue-500 focus:bg-white focus:outline-none"
-                                />
-                            </div>
-
-                            <button
-                                type="submit"
-                                className="md:w-32 bg-blue-500 hover:bg-blue-dark text-[#eff7fc] font-bold py-3 px-6 rounded-lg mt-3 hover:bg-blue-400 transition ease-in-out duration-300"
-                            >
-                                Submit
-                            </button>
-                        </form>
-                    </div>
-                </div>
+  return (
+    <div className="container mx-auto px-4 py-8 md:py-12 lg:py-16">
+      <h1 className="text-3xl font-bold text-center mb-8">Contact Us</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="space-y-6">
+          <h2 className="text-2xl font-semibold">Get in Touch</h2>
+          <form className="space-y-4">
+            <div>
+              <input type="text" placeholder="Your Name" className="w-full px-3 py-2 border border-gray-300 rounded-md" />
             </div>
+            <div>
+              <input type="email" placeholder="Your Email" className="w-full px-3 py-2 border border-gray-300 rounded-md" />
+            </div>
+            <div>
+              <textarea placeholder="Your Message" rows={4} className="w-full px-3 py-2 border border-gray-300 rounded-md"></textarea>
+            </div>
+            <button type="submit" className="w-full bg-[#0a66c2] text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600">
+              Send Message
+            </button>
+          </form>
         </div>
-    );
+
+        <div className="space-y-6">
+          <h2 className="text-2xl font-semibold">Contact Information</h2>
+          <div className="space-y-4">
+            <div className="flex items-start space-x-3">
+              <Clock className="w-5 h-5 mt-1 text-[#0a66c2]" />
+              <div>
+                <h3 className="font-semibold">Team Availability</h3>
+                <p className="text-gray-600">Monday to Friday: 9:00 AM - 6:00 PM</p>
+                <p className="text-gray-600">Saturday: 10:00 AM - 2:00 PM</p>
+                <p className="text-gray-600">Sunday: Closed</p>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-3">
+              <Mail className="w-5 h-5 mt-1 text-[#0a66c2]" />
+              <div>
+                <h3 className="font-semibold">Email</h3>
+                <a href="mailto:internswallah@gmail.com" className="text-[#0a66c2] hover:underline">
+                  internswallah@gmail.com
+                </a>
+              </div>
+            </div>
+
+            {/* WhatsApp Contact Section */}
+            <div className="flex items-start space-x-3">
+              <MessageCircle className="w-5 h-5 mt-1 text-[#0a66c2]" />
+              <div>
+                <h3 className="font-semibold">Message Us on WhatsApp</h3>
+                <a
+                  href="https://wa.me/917011989792"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#0a66c2] hover:underline"
+                >
+                  Chat with us...
+                </a>
+              </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-6">
+              <div className="flex-1">
+                <div className="flex items-start space-x-3">
+                  <MapPin className="w-5 h-5 mt-1 text-[#0a66c2]" />
+                  <div>
+                    <h3 className="font-semibold">Office Address</h3>
+                    <p className="text-gray-600">123 Tech Park, Innovation Street</p>
+                    <p className="text-gray-600">Silicon Valley, CA 94000</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Google Map Embed */}
+              <div className="flex-1">
+                <iframe
+                  className="w-full h-full rounded-md shadow-md"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224346.54005991464!2d77.04416915996975!3d28.527252733620696!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x52c2b7494e204dce!2sNew%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1739043697188!5m2!1sen!2sin"
+                  allowFullScreen
+                  loading="lazy"
+                ></iframe>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
+
 
