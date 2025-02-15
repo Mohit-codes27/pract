@@ -9,25 +9,21 @@ import { useForm } from 'react-hook-form';
 function SignUp() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { register, handleSubmit, setValue, formState: {errors, isSubmitting} } = useForm();
+    const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm();
     const [error, setError] = useState("");
     const [step, setStep] = useState(1);
     const [selectedOptions, setSelectedOptions] = useState({
-        company: [],
-        work: [],
-        role: [],
+        company: "",
+        work: "",
+        role: "",
     });
 
     const handleSelection = (key, value) => {
-        setSelectedOptions((prev) => {
-            const isSelected = prev[key].includes(value);
-            const updatedOptions = isSelected
-                ? prev[key].filter((item) => item !== value) // Deselect
-                : [...prev[key], value]; // Select
-
-            setValue(key, updatedOptions); // Update react-hook-form value
-            return { ...prev, [key]: updatedOptions };
-        });
+        setSelectedOptions((prev) => ({
+            ...prev,
+            [key]: prev[key] === value ? "" : value, // Toggle selection
+        }));
+        setValue(key, value); // Update react-hook-form value
     };
 
     const createAccount = async (data) => {
@@ -39,21 +35,20 @@ function SignUp() {
                 name: data.name,
                 phone: data.phone,
                 city: data.city,
-                company: selectedOptions.company, // From state
-                work: selectedOptions.work,       // From state
-                role: selectedOptions.role,       // From state
+                company: selectedOptions.company, // Single string value
+                work: selectedOptions.work,       // Single string value
+                role: selectedOptions.role,       // Single string value
                 address: data.address,
             });
-    
+
             if (userData) {
-                dispatch(login(userData)); // Dispatch user data to Redux store
+                dispatch(login(userData));
                 navigate('/');
             }
         } catch (error) {
             setError(error.message || "Something went wrong. Please try again.");
         }
     };
-    
 
     const nextStep = () => setStep((prev) => Math.min(prev + 1, 2));
     const prevStep = () => setStep((prev) => Math.max(prev - 1, 1));
@@ -73,12 +68,8 @@ function SignUp() {
 
                     <div className="mb-6">
                         <div className="flex items-center justify-center gap-4">
-                            <div
-                                className={`w-1/2 h-2 rounded-full ${step === 1 ? 'bg-blue-600' : 'bg-gray-300'}`}
-                            ></div>
-                            <div
-                                className={`w-1/2 h-2 rounded-full ${step === 2 ? 'bg-blue-600' : 'bg-gray-300'}`}
-                            ></div>
+                            <div className={`w-1/2 h-2 rounded-full ${step === 1 ? 'bg-blue-600' : 'bg-gray-300'}`}></div>
+                            <div className={`w-1/2 h-2 rounded-full ${step === 2 ? 'bg-blue-600' : 'bg-gray-300'}`}></div>
                         </div>
                         <p className="text-center mt-2 text-gray-600">Step {step} of 2</p>
                     </div>
@@ -86,39 +77,10 @@ function SignUp() {
                     <form className="flex flex-col" onSubmit={handleSubmit(createAccount)}>
                         {step === 1 && (
                             <>
-                                <Input
-                                    label="Name"
-                                    placeholder="Enter Your Name"
-                                    type="text"
-                                    {...register("name", { required: true })}
-                                />
-
-                                <Input
-                                    label="Email"
-                                    placeholder="Enter Your Email"
-                                    type="email"
-                                    {...register("email", {
-                                        required: true,
-                                        validate: {
-                                            matchPattern: (value) =>
-                                                /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) || "Invalid email",
-                                        },
-                                    })}
-                                />
-
-                                <Input
-                                    label="Password"
-                                    type="password"
-                                    placeholder="Create Your Password"
-                                    {...register("password", { required: true })}
-                                />
-
-                                <Input
-                                    label="Phone Number"
-                                    type="tel"
-                                    placeholder="Enter Your Phone Number"
-                                    {...register("phone", { required: true })}
-                                />
+                                <Input label="Name" placeholder="Enter Your Name" type="text" {...register("name", { required: true })} />
+                                <Input label="Email" placeholder="Enter Your Email" type="email" {...register("email", { required: true })} />
+                                <Input label="Password" type="password" placeholder="Create Your Password" {...register("password", { required: true })} />
+                                <Input label="Phone Number" type="tel" placeholder="Enter Your Phone Number" {...register("phone", { required: true })} />
                             </>
                         )}
 
@@ -126,10 +88,7 @@ function SignUp() {
                             <>
                                 <div className="mb-4">
                                     <label className="block text-gray-700">City</label>
-                                    <select
-                                        className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
-                                        {...register("city", { required: true })}
-                                    >
+                                    <select className="w-full p-2 border rounded" {...register("city", { required: true })}>
                                         <option value="">Select City</option>
                                         <option value="Delhi">Delhi</option>
                                         <option value="Mumbai">Mumbai</option>
@@ -140,18 +99,14 @@ function SignUp() {
                                 <div className="mb-4 w-[80%]">
                                     <label className="block text-gray-700 mb-2">Type of Company</label>
                                     <div className="flex flex-wrap gap-2">
-                                        {["Product Based", "Service Based"].map((type) => (
+                                        {["Product Based", "Service Based"].map((company) => (
                                             <button
-                                                key={type}
+                                                key={company}
                                                 type="button"
-                                                className={`px-4 py-2 border rounded-full ${
-                                                    selectedOptions.company.includes(type)
-                                                        ? 'bg-blue-600 text-white'
-                                                        : 'bg-gray-100 hover:bg-gray-200'
-                                                }`}
-                                                onClick={() => handleSelection("company", type)}
+                                                className={`px-4 py-2 border rounded-full ${selectedOptions.company === company ? 'bg-blue-600 text-white' : 'bg-gray-100 hover:bg-gray-200'}`}
+                                                onClick={() => handleSelection("company", company)}
                                             >
-                                                {type}
+                                                {company}
                                             </button>
                                         ))}
                                     </div>
@@ -164,11 +119,7 @@ function SignUp() {
                                             <button
                                                 key={field}
                                                 type="button"
-                                                className={`px-4 py-2 border rounded-full ${
-                                                    selectedOptions.work.includes(field)
-                                                        ? 'bg-blue-600 text-white'
-                                                        : 'bg-gray-100 hover:bg-gray-200'
-                                                }`}
+                                                className={`px-4 py-2 border rounded-full ${selectedOptions.work === field ? 'bg-blue-600 text-white' : 'bg-gray-100 hover:bg-gray-200'}`}
                                                 onClick={() => handleSelection("work", field)}
                                             >
                                                 {field}
@@ -184,11 +135,7 @@ function SignUp() {
                                             <button
                                                 key={role}
                                                 type="button"
-                                                className={`px-4 py-2 border rounded-full ${
-                                                    selectedOptions.role.includes(role)
-                                                        ? 'bg-blue-600 text-white'
-                                                        : 'bg-gray-100 hover:bg-gray-200'
-                                                }`}
+                                                className={`px-4 py-2 border rounded-full ${selectedOptions.role === role ? 'bg-blue-600 text-white' : 'bg-gray-100 hover:bg-gray-200'}`}
                                                 onClick={() => handleSelection("role", role)}
                                             >
                                                 {role}
@@ -197,41 +144,17 @@ function SignUp() {
                                     </div>
                                 </div>
 
-                                <Input
-                                    label="Address"
-                                    placeholder="Company Address"
-                                    type="text"
-                                    {...register("address", { required: true })}
-                                />
+                                <Input label="Address" placeholder="Company Address" type="text" {...register("address", { required: true })} />
                             </>
                         )}
 
                         <div className="flex justify-between">
-                            {step > 1 && (
-                                <Button
-                                    type="button"
-                                    className="bg-gray-300 text-gray-800 py-2 px-4 rounded hover:bg-gray-400"
-                                    onClick={prevStep}
-                                >
-                                    Previous
-                                </Button>
-                            )}
-
+                            {step > 1 && <Button type="button" className="bg-gray-300 text-gray-800 py-2 px-4 rounded" onClick={prevStep}>Previous</Button>}
                             {step < 2 ? (
-                                <Button
-                                    type="button"
-                                    className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-                                    onClick={nextStep}
-                                >
-                                    Next
-                                </Button>
+                                <Button type="button" className="bg-blue-600 text-white py-2 px-4 rounded" onClick={nextStep}>Next</Button>
                             ) : (
-                                <Button
-                                    type="submit"
-                                    className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-                                    disabled={isSubmitting}
-                                >
-                                    {isSubmitting? "Submitting.." : "Submit"}
+                                <Button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded" disabled={isSubmitting}>
+                                    {isSubmitting ? "Submitting.." : "Submit"}
                                 </Button>
                             )}
                         </div>

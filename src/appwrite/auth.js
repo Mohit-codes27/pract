@@ -18,30 +18,38 @@ export class AuthService {
     // Create a new user account and save it in the database
     async createAccount({ email, password, name, phone, city, company, work, role, address, gender, languages, type }) {
         try {
-            // Create user account
-            const userAccount = await this.account.create(ID.unique(), email, password, name);
+            console.log("Starting account creation...");
+            
+            const userId = `user_${Date.now()}`; // Unique user ID
+            console.log("Generated User ID:", userId);
+            
+            const userAccount = await this.account.create(userId, email, password, name);
+            console.log("User account response:", userAccount);
+    
             if (!userAccount) throw new Error("Account creation failed");
-
-            // Log in the user
+    
             await this.login({ email, password });
-
-            // Save user info to Appwrite Database
+    
             const user = await this.getCurrentUser();
+            console.log("Logged in user:", user);
+    
             if (!user) throw new Error("User login failed");
-
+    
             await this.database.createDocument(
                 conf.appWriteDatabaseId,
-                conf.appWriteCollectionId,
-                user.$id, // Store user ID as document ID
+                conf.appwriteCollectionId,
+                user.$id,
                 { name, email, phone, city, company, work, role, address, gender, languages, type, resumeFileId: "" }
             );
-
+    
             return user;
         } catch (error) {
             console.error("Error creating account:", error);
             throw error;
         }
     }
+    
+    
 
     // Log in a user
     async login({ email, password }) {
@@ -57,12 +65,15 @@ export class AuthService {
     // Get the currently logged-in user
     async getCurrentUser() {
         try {
-            return await this.account.get();
+            const user = await this.account.get();
+            console.log("Fetched user:", user);
+            return user;
         } catch (error) {
             console.error("Error fetching current user:", error);
             return null;
         }
     }
+    
 
     // Log out the user
     async logout() {
