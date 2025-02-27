@@ -37,10 +37,9 @@ const AbroadPage = () => {
     <div className="min-h-screen flex flex-col justify-center items-center -mt-8 bg-[url('/src/Components/Abroad/bgImg.jpg')] bg-cover bg-center m-0">
       {/* Header Section */}
       <div className="text-center mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
-          Find your <span className="text-[#0a66c2]">dream college</span> abroad
-          for MBA & Masters
-        </h1>
+      <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
+          findYour<span className="text-[#0a66c2]">DreamCollege</span>AbroadForMBA&Masters
+        </h1>
         <p className="text-gray-600 text-base md:text-xl mt-4">
           Choose from over 4,000 colleges, get free personalized counseling,
         </p>

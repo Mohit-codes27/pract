@@ -166,8 +166,8 @@ export default function BookPage() {
         transition={{ duration: 0.8 }}
       >
         <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
-          Book a <span className="text-[#0a66c2]">1 : 1</span> Counselling Sesion
-        </h1>
+          bookA<span className="text-[#0a66c2]">1:1</span>CounsellingSession
+        </h1>
         <p className="text-gray-600 text-base md:text-xl mt-4">
           Book a session with experienced mentors across domains & work
         </p>

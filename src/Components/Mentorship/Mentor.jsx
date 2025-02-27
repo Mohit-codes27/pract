@@ -166,8 +166,8 @@ export default function MentorPage() {
         transition={{ duration: 0.8 }}
       >
         <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
-          Get personalized <span className="text-[#0a66c2]">1 : 1</span> Mentorship from industry experts!
-        </h1>
+          getA<span className="text-[#0a66c2]">1:1</span>MentorshipFromIndustryExperts!
+        </h1>
         <p className="text-gray-600 text-base md:text-xl mt-4">
           Connect with experienced mentors who will guide you through your career.
         </p>
