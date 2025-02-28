@@ -5,7 +5,7 @@ import Home from "./Home/Home";
 import About from "./About/About";
 import Contact from "./Contact/Contact";
 import Login from "./Login";
-import Input from './Input';
+import Input from './Input/Input';
 import Button from './Button';
 import SignUp2 from './SignUp2'
 import SignUp from './SignUp'
@@ -23,5 +23,6 @@ import MentorPage from "./Mentorship/Mentor";
 import ProfilePage from "./Profile/profilePage";
 import Setting from "./Setting";
 import PrivacyPage from './PrivacyPolicy';
+import PassInput from "./Input/passInput";
 
-export {Header, LogoutBtn, Footer, Home, About, Contact, Login, Input, Button,SignUp2, AuthLayout, SignUp, Modal, AbroadPage, InternshipFilter, InternshipDetail, Setting, PrivacyPage, JobDetail, JobFilter, CourseDetail, CourseFilter, BookPage, MentorPage, ProfilePage};
+export {Header, LogoutBtn, Footer, Home, About, PassInput, Contact, Login, Input, Button,SignUp2, AuthLayout, SignUp, Modal, AbroadPage, InternshipFilter, InternshipDetail, Setting, PrivacyPage, JobDetail, JobFilter, CourseDetail, CourseFilter, BookPage, MentorPage, ProfilePage};

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login as authLogin } from "../store/authSlice";
-import { Button, Input } from "./index";
+import { Button, Input, PassInput } from "./index"; // Removed PassInput
 import { useDispatch } from "react-redux";
 import authService from "../appwrite/auth";
 import { useForm } from "react-hook-form";
@@ -146,11 +146,10 @@ function Login() {
                                 {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
                             </div>
 
-                            {/* Password Input */}
+                            {/* Password Input with Toggle */}
                             <div className="flex flex-col">
-                                <Input
+                                <PassInput
                                     label="Password"
-                                    type="password"
                                     placeholder="Enter Your Password"
                                     className="w-[350px]"
                                     {...register("password", {
