@@ -5,6 +5,7 @@ import { Button, Input, PassInput } from "./index"; // Removed PassInput
 import { useDispatch } from "react-redux";
 import authService from "../appwrite/auth";
 import { useForm } from "react-hook-form";
+import Image from "./Header/Logo.png";
 
 function Login() {
     const navigate = useNavigate();
@@ -35,6 +36,13 @@ function Login() {
 
     return (
         <div className="relative flex items-top justify-center min-h-[700px] bg-[#eff7fc] sm:items-center sm:pt-0">
+            <div className="absolute top-4 left-1/2 transform -translate-x-1/2">
+            <img
+              src={Image}
+              alt="Decorative"
+              className="w-32 h-32 object-contain"
+            />
+          </div>
             <div className="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div className="mt-8 overflow-hidden">
                     <div className="grid grid-cols-1 md:grid-cols-2">
