@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import authService from "../../appwrite/auth";
 import { LogoutBtn } from "../index";
-import Logo from "./logoM.png";
+import Logo from "./Logo.png";
 import "./styles.css";
 
 export default function Header() {
@@ -68,7 +68,7 @@ export default function Header() {
               <img
                 src={Logo}
                 alt="Logo"
-                className="w-full h-auto object-contain"
+                className="w-full h-auto object-contain transition-transform duration-200 hover:scale-125"
               />
             </div>
 
