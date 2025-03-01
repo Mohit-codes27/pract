@@ -23,3 +23,10 @@
       background-position-x:-150%;
     }
   }  
+.hover-rotate {
+  transition: transform 0.6s ease-in-out;
+}
+
+.hover-rotate:hover {
+  transform: rotateY(360deg);
+}
