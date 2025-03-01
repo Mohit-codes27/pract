@@ -40,7 +40,7 @@ function Login() {
             <img
               src={Image}
               alt="Decorative"
-              className="w-32 h-32 object-contain"
+              className="w-32 h-32 object-contain hover-rotate"
             />
           </div>
             <div className="max-w-6xl mx-auto sm:px-6 lg:px-8">
