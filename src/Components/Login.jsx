@@ -41,10 +41,10 @@ function Login() {
                         {/* Left Section */}
                         <div className="p-6 mr-2 bg-[#0a66c2] sm:rounded-lg">
                             <h1 className="text-3xl sm:text-4xl text-white font-extrabold tracking-tight">
-                                Get in touch:
+                                Get In Touch:
                             </h1>
                             <p className="text-normal text-lg sm:text-xl font-medium text-white mt-2">
-                                Fill in the form to start a conversation
+                                Fill In The Form To Start A Conversation
                             </p>
 
                             {/* Contact Info */}
@@ -114,7 +114,7 @@ function Login() {
                         {/* Right Section - Login Form */}
                         <form onSubmit={handleSubmit(login)} className="p-6 flex flex-col justify-center">
                             <h2 className="text-center text-2xl font-bold leading-tight">
-                                Sign in to your account
+                                Sign In To Your Account
                             </h2>
                             <p className="mt-2 text-center text-base text-black/60">
                                 Don't have an account?&nbsp;
