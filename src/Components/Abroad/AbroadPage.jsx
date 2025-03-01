@@ -98,7 +98,7 @@ const AbroadPage = () => {
             type="submit"
             className="w-full bg-[#0a66c2] hover:bg-blue-600 text-white font-medium py-2 rounded-md transition badge"
           >
-            Find colleges
+            Find Colleges
           </button>
         </form>
       </div>
