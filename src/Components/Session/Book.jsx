@@ -139,7 +139,7 @@ export default function BookPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-[url('/src/Components/Session/background.webp')] bg-cover bg-center relative">
+    <div className="min-h-screen flex flex-col justify-center items-center bg-[url('/src/Components/Session/back.png')] bg-cover bg-center relative">
       {/* Header Section */}
       <motion.div
         className="text-center mb-8"

@@ -5,7 +5,7 @@ import { Button, Input, PassInput } from "./index"; // Removed PassInput
 import { useDispatch } from "react-redux";
 import authService from "../appwrite/auth";
 import { useForm } from "react-hook-form";
-import Image from "./Header/Logo.png";
+import Image from "./Home/images/InternLogo.png";
 import "./Header/styles.css"
 
 function Login() {
@@ -41,7 +41,7 @@ function Login() {
             <img
               src={Image}
               alt="Decorative"
-              className="w-32 h-32 object-contain hover-rotate"
+              className="w-40 h-40 object-contain hover-rotate"
             />
           </div>
             <div className="max-w-6xl mx-auto sm:px-6 lg:px-8">
