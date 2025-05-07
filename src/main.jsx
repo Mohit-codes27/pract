@@ -6,7 +6,7 @@ import { createBrowserRouter, Route, RouterProvider } from 'react-router-dom'
 import Home from './Components/Home/Home.jsx'
 import About from './Components/About/About.jsx'
 import Information from './Components/Information/Information.jsx'
-import { AuthLayout, SignUp, Setting, PrivacyPage, Contact, Login, SignUp2, ProfilePage, AbroadPage, MentorPage, InternshipFilter, InternshipDetail, JobDetail, JobFilter, CourseDetail, CourseFilter, BookPage } from './Components/index.js'
+import { AuthLayout, SignUp, Setting, PrivacyPage, Contact, Login, SignUp2, ProfilePage, AbroadPage, MentorPage, InternshipFilter, InternshipDetail, JobDetail, JobFilter, CourseDetail, CourseFilter, BookPage, JobPost } from './Components/index.js'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
 
@@ -66,6 +66,10 @@ const router = createBrowserRouter([
       {
         path: 'jobs',
         element: <JobFilter/>
+      },
+      {
+        path: 'job-post',
+        element: <JobPost/>
       },
       {
         path: 'job/:id',

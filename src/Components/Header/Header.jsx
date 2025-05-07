@@ -1,45 +1,28 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import authService from "../../appwrite/auth";
 import { LogoutBtn } from "../index";
 import Logo from "./Logo.png";
 import "./styles.css";
 
 export default function Header() {
   const [dropdown, setDropdown] = useState("");
-  const [userName, setUserName] = useState(""); // To store the user's name
   const internshipsRef = useRef(null);
   const jobsRef = useRef(null);
   const coursesRef = useRef(null);
   const getStartedRef = useRef(null);
+
   const authStatus = useSelector((state) => state.auth.status);
+  const user = useSelector((state) => state.auth.user); // 👈 your own user from Redux
 
   const toggleDropdown = (dropdownName) => {
     setDropdown((prev) => (prev === dropdownName ? "" : dropdownName));
   };
 
   useEffect(() => {
-    const fetchUserName = async () => {
-      try {
-        const userData = await authService.getCurrentUser();
-        if (userData) {
-          setUserName(userData.name); // Update the user's name
-        }
-      } catch (error) {
-        console.error("Error fetching user name:", error);
-      }
-    };
-
-    if (authStatus) {
-      fetchUserName(); // Fetch the user's name if logged in
-    }
-  }, [authStatus]);
-
-  useEffect(() => {
     const handleClickOutside = (event) => {
       if (
-        dropdown !== "" && // Only proceed if a dropdown is open
+        dropdown !== "" &&
         !(
           (internshipsRef.current &&
             internshipsRef.current.contains(event.target)) ||
@@ -72,6 +55,8 @@ export default function Header() {
               />
             </div>
 
+            {/* Dropdowns: Internships, Jobs, Courses */}
+            {/* ...no changes to these sections... */}
             <div className="relative">
               <button
                 onClick={() => toggleDropdown("internships")}
@@ -181,7 +166,8 @@ export default function Header() {
               )}
             </div>
           </div>
-          {!authStatus && (
+
+          {!authStatus ? (
             <div className="flex items-center lg:order-2 w-[15vw]">
               <Link
                 to="/login"
@@ -219,15 +205,16 @@ export default function Header() {
                 )}
               </div>
             </div>
-          )}
-          {authStatus && (
+          ) : (
             <div className="flex items-center lg:order-2 w-[15vw] justify-center">
               <span className="mr-4 text-[#0a66c2] font-medium">
-                {userName ? `Hi, ${userName}` : "Hi!"}
+                {user?.name ? `Hi, ${user.name}` : "Hi!"}
               </span>
               <LogoutBtn />
             </div>
           )}
+
+
           <div
             className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1 mr-48"
             id="mobile-menu-2 "
@@ -237,8 +224,7 @@ export default function Header() {
                 <NavLink
                   to="/"
                   className={({ isActive }) =>
-                    `block py-2 pr-4 pl-3 duration-200 ${
-                      isActive ? "text-blue-500" : "text-gray-700"
+                    `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-500" : "text-gray-700"
                     } border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-400 lg:p-0`
                   }
                 >
@@ -249,8 +235,7 @@ export default function Header() {
                 <NavLink
                   to="/about"
                   className={({ isActive }) =>
-                    `block py-2 pr-4 pl-3 duration-200 ${
-                      isActive ? "text-blue-500" : "text-gray-700"
+                    `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-500" : "text-gray-700"
                     } border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-400 lg:p-0`
                   }
                 >
@@ -261,12 +246,22 @@ export default function Header() {
                 <NavLink
                   to="/information"
                   className={({ isActive }) =>
-                    `block py-2 pr-4 pl-3 duration-200 ${
-                      isActive ? "text-blue-500" : "text-gray-700"
+                    `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-500" : "text-gray-700"
                     } border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-400 lg:p-0`
                   }
                 >
                   Information
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/job-post"
+                  className={({ isActive }) =>
+                    `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-500" : "text-gray-700"
+                    } border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-400 lg:p-0`
+                  }
+                >
+                  Job Post
                 </NavLink>
               </li>
             </ul>
