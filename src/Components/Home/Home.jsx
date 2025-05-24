@@ -9,6 +9,9 @@ import jobsData from "./jobsData";
 import coursesData from "./coursesData";
 import "./style.css";
 import Modal from "./Modal";
+import intern_bg from "./images/card_bg.webp"
+import job_bg from "./images/job_bg.webp"
+import course_bg from "./images/course_bg.webp"
 import { Link } from "react-router-dom";
 
 const App = () => {
@@ -222,8 +225,10 @@ const App = () => {
             >
               {/* Top Section with Gradient and Icon */}
               <div
-                className={`relative w-full h-28 ${internship.bgColor} flex items-center justify-center`}
+                className={`relative w-full h-28 ${internship.bgColor} flex items-center justify-center `}
+                style={{ backgroundImage: `url(${intern_bg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
               >
+              
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                 <h3 className="z-10 text-white text-2xl font-bold">
                   {internship.title}
@@ -300,6 +305,7 @@ const App = () => {
               {/* Top Section with Gradient and Icon */}
               <div
                 className={`relative w-full h-28 ${job.bgColor} flex items-center justify-center`}
+                style={{ backgroundImage: `url(${job_bg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
               >
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                 <h3 className="z-10 text-white text-2xl font-bold">
@@ -377,6 +383,7 @@ const App = () => {
               {/* Top Section with Gradient and Icon */}
               <div
                 className={`relative w-full h-28 ${course.bgColor} flex items-center justify-center`}
+                style={{ backgroundImage: `url(${course_bg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
               >
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                 <h3 className="z-10 text-white text-2xl font-bold">

@@ -8,7 +8,7 @@ const internshipsData = [
     hiringStatus: "Actively Hiring",
     views: '5k',
     daysLeft: '3',
-    bgColor: 'bg-gradient-to-r from-purple-500 via-violet-500 to-blue-500',
+    // bgColor: 'bg-gradient-to-r from-purple-500 via-violet-500 to-blue-500',
     company: 'company 1',
     eligible: '12th Pass',
     img: 'https://th.bing.com/th/id/OIG3.80EN2JPNx7kp5VqoB5kz'
