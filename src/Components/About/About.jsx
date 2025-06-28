@@ -1,52 +1,312 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import InternshipFilter from "../Dropdowns/Intern/internFilter";
+// import { useEffect, useState } from "react";
+// import axios from "axios";
+// import { Briefcase, GraduationCap, Users } from "lucide-react";
+
+// const About = () => {
+//   const [userType, setUserType] = useState(null);
+//   const [loading, setLoading] = useState(true);
+
+//   useEffect(() => {
+//     const fetchUser = async () => {
+//       try {
+//         const res = await axios.get("http://localhost:5000/me", {
+//           withCredentials: true,
+//         });
+//         setUserType(res.data.role); // from backend: "employee" or "employer"
+//       } catch (error) {
+//         setUserType("guest");
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchUser();
+//   }, []);
+
+//   if (loading) return <p className="text-center mt-10">Loading...</p>;
+
+//   const sharedTagline = `Connecting students with meaningful internships and helping businesses find passionate interns.`;
+
+//   const employeeContent = {
+//     heading: "About Internswallah for Students",
+//     icon: <GraduationCap className="text-blue-500 w-8 h-8 mb-2" />,
+//     body: (
+//       <>
+//         <p className="mb-4">
+//           Starting your career can be overwhelming, but Internswallah is here to make it simple and rewarding. We provide students with access to verified internships, industry insights, and career-building resources to help them stand out in the job market.
+//         </p>
+//         <ul className="list-disc list-inside mb-4 space-y-1">
+//           <li>Access to verified internships across multiple industries</li>
+//           <li>Skill-building resources to improve employability</li>
+//           <li>Career guidance, resume building, and interview preparation</li>
+//           <li>Network of mentors, industry professionals, and recruiters</li>
+//         </ul>
+//         <p className="font-semibold">Join Internswallah and take the first step towards a successful future!</p>
+//       </>
+//     ),
+//   };
+
+//   const employerContent = {
+//     heading: "About Internswallah for Employers",
+//     icon: <Briefcase className="text-green-600 w-8 h-8 mb-2" />,
+//     body: (
+//       <>
+//         <p className="mb-4">
+//           Finding the right talent for your organization can be a challenge, but Internswallah makes it seamless. We connect businesses with driven, skilled interns who are ready to contribute and grow.
+//         </p>
+//         <ul className="list-disc list-inside mb-4 space-y-1">
+//           <li>Hassle-free access to skilled and motivated interns</li>
+//           <li>Reduced recruitment time and effort</li>
+//           <li>Pool of industry-ready students eager to learn</li>
+//           <li>Flexibility to match interns to your business needs</li>
+//         </ul>
+//         <p className="font-semibold">Partner with Internswallah and grow your business with top talent!</p>
+//       </>
+//     ),
+//   };
+
+//   const guestContent = {
+//     heading: "About Internswallah",
+//     icon: <Users className="text-purple-600 w-8 h-8 mb-2" />,
+//     body: (
+//       <p className="mb-4">
+//         Internswallah is a bridge between opportunity seekers and providers. Whether you're a student or a recruiter, join us to make meaningful connections and unlock new possibilities.
+//       </p>
+//     ),
+//   };
+
+//   const content =
+//     userType === "employee"
+//       ? employeeContent
+//       : userType === "employer"
+//       ? employerContent
+//       : guestContent;
+
+//   return (
+//     <div className="px-6 py-10 max-w-4xl mx-auto animate-fade-in">
+//       <h2 className="text-center text-3xl font-extrabold mb-6 text-blue-700">
+//         {sharedTagline}
+//       </h2>
+
+//       <div className="text-center mb-4">{content.icon}</div>
+//       <h3 className="text-xl font-semibold text-center mb-4">
+//         {content.heading}
+//       </h3>
+
+//       <div className="text-gray-700 text-base leading-relaxed">
+//         {content.body}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default About;
+
+"use client"
+
+import { useEffect, useState } from "react"
+import axios from "axios"
 
 const About = () => {
-  const [showInternships, setShowInternships] = useState(false);
-  const navigate = useNavigate();
+  const [userType, setUserType] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-  return (
-    <div className="p-6 max-w-4xl mx-auto bg-white shadow-md rounded-lg">
-      {/* Logo and Company Name */}
-      <div className="flex items-center mb-4">
-        <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">Logo</div>
-        <h1 className="text-lg font-semibold ml-4">Company Name</h1>
-      </div>
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/me", {
+          withCredentials: true,
+        })
+        setUserType(res.data.role)
+      } catch (error) {
+        console.log("Not logged in or failed to fetch role", error)
+        setUserType("guest")
+      } finally {
+        setLoading(false)
+      }
+    }
 
-      {/* Business Development Section */}
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-blue-600">Business Development</h2>
-        <p className="text-gray-600">Biggest font size heading</p>
-        <p className="text-gray-500">Smaller event markers, allocation details</p>
-      </div>
+    fetchUser()
+  }, [])
 
-      {/* Detailed Sections */}
-      <div className="border-t pt-4">
-        <h3 className="text-lg font-bold text-gray-700">Details</h3>
-        <p className="text-gray-600">Heading with bold and hot text</p>
-        <ul className="list-disc pl-5 text-gray-600">
-          <li>Point 1</li>
-          <li>Point 2</li>
-          <li>Point 3</li>
-        </ul>
-      </div>
-
-      {/* Job Listings Section */}
-      <div className="mt-6 border-t pt-4 cursor-pointer" onClick={() => setShowInternships(true)}>
-        <h3 className="text-lg font-bold text-blue-500">(25%) Job Listings</h3>
-        <p className="text-gray-600">Consisting of offers and job cards</p>
-        <div className="mt-4 border p-4 rounded-lg shadow-sm bg-gray-100">
-          <p className="text-gray-700">Live Job Design</p>
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
         </div>
       </div>
+    )
+  }
 
-      {/* Internship Filter Section */}
-      {showInternships && <InternshipFilter />}
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Main Content */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Header Section */}
+        <div className="mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-6">About Internswallah</h1>
+          <p className="text-lg text-gray-700 leading-relaxed">
+            At Internswallah, we connect students with the right opportunities and help companies discover passionate,
+            skilled interns ready to grow and make an impact.
+          </p>
+        </div>
+
+        {/* Employee Section */}
+        {userType === "employee" && (
+          <div className="mb-12">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-6">For Students</h2>
+            <div className="bg-white rounded-lg p-8 shadow-sm border">
+              <p className="text-gray-700 leading-relaxed mb-6">
+                Starting your career can be overwhelming, but Internswallah is here to make it simple and rewarding. We
+                provide students with access to verified internships, industry insights, and career-building resources
+                to help them stand out in the job market. Whether you're looking to gain hands-on experience, strengthen
+                your resume, or find the right career path, Internswallah is your trusted partner in success.
+              </p>
+
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Why Students Choose Internswallah?</h3>
+              <ul className="space-y-3 text-gray-700">
+                <li className="flex items-start">
+                  <span className="text-blue-600 mr-3">•</span>
+                  Access to verified internships across multiple industries.
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-600 mr-3">•</span>
+                  Skill-building resources to improve employability.
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-600 mr-3">•</span>
+                  Career guidance, resume building, and interview preparation.
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-600 mr-3">•</span>A growing network of mentors, industry professionals, and
+                  recruiters.
+                </li>
+              </ul>
+
+              <div className="mt-8 p-4 bg-blue-50 rounded-lg">
+                <p className="font-medium text-gray-900">
+                  Join Internswallah and take the first step towards a successful future!
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Employer Section */}
+        {userType === "employer" && (
+          <div className="mb-12">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-6">For Employers</h2>
+            <div className="bg-white rounded-lg p-8 shadow-sm border">
+              <p className="text-gray-700 leading-relaxed mb-6">
+                Finding the right talent for your organization can be a challenge, but Internswallah makes it seamless.
+                We connect businesses with driven, skilled interns who are ready to contribute and grow. Whether you're
+                a startup or a well-established company, we streamline the hiring process, saving you time and effort
+                while ensuring access to top student talent.
+              </p>
+
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Why Businesses Choose Internswallah?</h3>
+              <ul className="space-y-3 text-gray-700">
+                <li className="flex items-start">
+                  <span className="text-blue-600 mr-3">•</span>
+                  Hassle-free access to skilled and motivated interns.
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-600 mr-3">•</span>
+                  Reduced recruitment time and effort.
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-600 mr-3">•</span>A pool of industry-ready students eager to learn and
+                  contribute.
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-600 mr-3">•</span>
+                  Flexibility to find interns based on specific business needs.
+                </li>
+              </ul>
+
+              <div className="mt-8 p-4 bg-blue-50 rounded-lg">
+                <p className="font-medium text-gray-900">
+                  Partner with Internswallah today and discover the next generation of professionals who can help drive
+                  your business forward!
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Guest Section */}
+        {userType === "guest" && (
+          <div className="mb-12">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-6">Welcome to Internswallah</h2>
+            <div className="bg-white rounded-lg p-8 shadow-sm border">
+              <p className="text-gray-700 leading-relaxed">
+                Internswallah is a bridge between opportunity seekers and providers. Whether you're a student or a
+                recruiter, join us to make meaningful connections and unlock new possibilities.
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Footer */}
+      <footer className="bg-white border-t mt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">RESOURCES</h3>
+              <ul className="space-y-3">
+                <li>
+                  <a href="#" className="text-gray-600 hover:text-blue-600">
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-gray-600 hover:text-blue-600">
+                    About
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">FOLLOW US</h3>
+              <ul className="space-y-3">
+                <li>
+                  <a href="#" className="text-gray-600 hover:text-blue-600">
+                    Github
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-gray-600 hover:text-blue-600">
+                    Discord
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4">LEGAL</h3>
+              <ul className="space-y-3">
+                <li>
+                  <a href="#" className="text-gray-600 hover:text-blue-600">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-gray-600 hover:text-blue-600">
+                    Terms & Conditions
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-8 pt-8 border-t">
+            <p className="text-gray-500 text-sm">© 2023 . All Rights Reserved.</p>
+          </div>
+        </div>
+      </footer>
     </div>
-  );
-};
+  )
+}
 
-export default About;
-
-
+export default About
