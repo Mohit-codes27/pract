@@ -1,11 +1,12 @@
-import Header from "./Header/Header";
-import LogoutBtn from "./Header/LogoutBtn";
-import Footer from "./Footer/Footer";
-import Home from "./Home/Home";
-import About from "./About/About";
-import Contact from "./Contact/Contact";
-import Login from "./Login";
-import Input from './Input/Input';
+import {default as Header} from "./Header/Header";
+import {default as LogoutBtn} from "./Header/LogoutBtn";
+import {default as Footer} from "./Footer/Footer";
+import {default as Home} from "./Home/Home";
+import {default as About} from "./About/About";
+import {default as Contact} from "./Contact/Contact";
+import {default as Login} from "./Login";
+import {default as Input} from './Input/Input';
+import Information from './Information/Information';
 import Button from './Button';
 import SignUp2 from './SignUp2'
 import SignUp from './SignUp'
@@ -20,10 +21,10 @@ import CourseDetail from "./Dropdowns/Course/CourseDetail";
 import CourseFilter from "./Dropdowns/Course/CourseFilter";
 import BookPage from "./Session/Book";
 import MentorPage from "./Mentorship/Mentor";
-import ProfilePage from "./Profile/profilePage";
+import ProfilePage from "./Profile/ProfilePage";
 import Setting from "./Setting";
 import PrivacyPage from './PrivacyPolicy';
 import PassInput from "./Input/passInput";
 import JobPost from "./JobPost";
 
-export {Header, LogoutBtn, Footer, Home, About, PassInput, Contact, Login, Input, Button,SignUp2, AuthLayout, SignUp, Modal, AbroadPage, InternshipFilter, InternshipDetail, Setting, PrivacyPage, JobDetail, JobFilter, CourseDetail, CourseFilter, BookPage, MentorPage, ProfilePage, JobPost};
+export {Header, LogoutBtn, Footer, Home, About, PassInput, Contact, Login, Input, Button,SignUp2, AuthLayout, SignUp, Modal, AbroadPage, InternshipFilter, InternshipDetail, Setting, PrivacyPage, JobDetail, JobFilter, CourseDetail, CourseFilter, BookPage, MentorPage, ProfilePage, JobPost, Information};

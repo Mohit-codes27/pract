@@ -1,17 +1,21 @@
 import React, {useRef, useEffect, useState} from 'react';
 import { useDispatch } from 'react-redux'
-import authService from '../../appwrite/auth'
+import axios from "axios";
 import { logout } from '../../store/authSlice'
 import { Link } from 'react-router-dom';
+
 
 function LogoutBtn() {
   const dispatch = useDispatch()
   const profileRef = useRef(null)
   const [dropdown, setDropdown] = useState("");
-  const logoutHandler = () => {
-    authService.logout().then(() => {
-      dispatch(logout())
-    })
+  const logoutHandler = async () => {
+    try {
+      await axios.get("http://localhost:5000/logout", { withCredentials: true });
+      dispatch(logout());
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   }
   const toggleDropdown = (dropdownName) => {
     setDropdown((prev) => (prev === dropdownName ? "" : dropdownName));
