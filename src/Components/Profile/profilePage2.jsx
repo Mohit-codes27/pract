@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import achievementData from "./achievementsData";
 import { User, Mail, Phone, Landmark, Venus, Languages, UserCheck, FileText, PencilLine, Trophy, CheckCircle, XCircle } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 export default function ProfilePage2() {
   const [profile, setProfile] = useState(null);
   const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [file, setFile] = useState(null);
+  const [resumeUploading, setResumeUploading] = useState(false);
+  const [resumeMessage, setResumeMessage] = useState("");
 
   // Fetch profile on mount
   useEffect(() => {
@@ -42,6 +46,56 @@ export default function ProfilePage2() {
       setEditing(false);
     } catch (error) {
       console.error("Error updating profile:", error);
+    }
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleResumeUpload = async () => {
+    if (!file) return;
+    setResumeUploading(true);
+    setResumeMessage("");
+    try {
+      const formData = new FormData();
+      formData.append("resume", file);
+
+      const res = await axios.post(
+        "http://localhost:5000/employee-profile/upload-resume",
+        formData,
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/pdf" },
+        }
+      );
+      setResumeMessage("Resume uploaded successfully!");
+      // Update profile with new resume URL
+      setProfile((prev) => ({ ...prev, resume: res.data.resumeUrl }));
+      setFile(null);
+    } catch (error) {
+      setResumeMessage("Error uploading resume.");
+      console.error("Error uploading resume:", error);
+    } finally {
+      setResumeUploading(false);
+    }
+  };
+
+  const handleResumeDelete = async () => {
+    setResumeUploading(true);
+    setResumeMessage("");
+    try {
+      await axios.delete("http://localhost:5000/employee-profile/delete-resume", {
+        withCredentials: true,
+      });
+      setResumeMessage("Resume deleted.");
+      setProfile((prev) => ({ ...prev, resume: "" }));
+      setFile(null);
+    } catch (error) {
+      setResumeMessage("Error deleting resume.");
+      console.error("Error deleting resume:", error);
+    } finally {
+      setResumeUploading(false);
     }
   };
 
@@ -226,20 +280,51 @@ export default function ProfilePage2() {
           <p className="text-gray-600 text-md mb-3">
             Upload your resume to apply faster!
           </p>
+          {resumeMessage && (
+        <div className="mb-2 text-sm text-blue-600">{resumeMessage}</div>
+      )}
+      {resumeUploading && (
+        <div className="mb-2 text-sm text-gray-500">Uploading...</div>
+      )}
           <div className="flex flex-col sm:flex-row items-center gap-4">
-            <input
-              type="file"
-              accept="application/pdf"
-              id="resumeUpload"
-              className="border p-2 rounded w-full"
-              disabled
-            />
-            <button
-              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full sm:w-auto"
-              disabled
-            >
-              Upload (Coming Soon)
-            </button>
+            {!profile.resume ? (
+              <>
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  id="resumeUpload"
+                  className="border p-2 rounded w-full"
+                  onChange={handleFileChange}
+                  disabled={resumeUploading}
+                />
+                <button
+                  onClick={handleResumeUpload}
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full sm:w-auto"
+                  disabled={resumeUploading || !file}
+                >
+                  Upload
+                </button>
+              </>
+            ) : (
+              <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
+                <a
+                  href={profile.resume}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 underline break-all"
+                >
+                  View Resume
+                </a>
+                <button
+                  onClick={handleResumeDelete}
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded flex items-center"
+                  disabled={resumeUploading}
+                >
+                  <Trash2 className="mr-2" size={18} />
+                  Delete
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

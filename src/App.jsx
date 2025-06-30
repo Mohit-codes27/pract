@@ -12,50 +12,41 @@ const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    const userData = token ? JSON.parse(localStorage.getItem('user')) : null
-
-    if (userData) {
-      setUser(userData)
-      dispatch(login({ userData })) // ✅ Ensure object format
-    } else {
-      setUser(null)
-      dispatch(logout())
-    }
-    setLoading(false)
-  }, [dispatch])
-
-  useEffect(() => {
     async function fetchUser() {
       try {
-        // Try employer session first
         let res = await axios.get('http://localhost:5000/me', { withCredentials: true })
         if (res.data && res.data.fullName) {
           dispatch(login({ userData: { ...res.data, userType: 'employer' } }))
+          setLoading(false)
           return
         }
-      } catch {
-        // If employer session fails, try candidate session
-        console.error('Employer session not found, trying employee session...')
-      }
+      } catch {}
 
       try {
-        // Try employee session if employer not found
         let res = await axios.get('http://localhost:5000/employee-profile', { withCredentials: true })
         if (res.data && res.data.fullName) {
           dispatch(login({ userData: { ...res.data, userType: 'employee' } }))
+          setLoading(false)
           return
         }
-      } catch {
-        console.error('Employee session not found')
-      }
+      } catch {}
 
       dispatch(logout())
+      setLoading(false)
     }
     fetchUser()
   }, [dispatch])
 
-  if (loading) return null
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+        <div className="w-12 h-12 border-4 border-gray-300 border-t-[#0a66c2] rounded-full animate-spin"></div>
+        <h2 className="mt-4 text-lg font-medium text-gray-700">
+          Loading, please wait...
+        </h2>
+      </div>
+    )
+  }
 
   return (
     <UserDataContext.Provider value={{ user, setUser }}>

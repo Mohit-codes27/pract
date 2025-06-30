@@ -273,6 +273,9 @@ import employeeService from "./services/employee.service.js";
 import blacklistTokenModel from "./models/blacklist.model.js";
 import cookieParser from "cookie-parser";
 import authmiddleware from "./middlewares/auth.middleware.js";
+import { v2 as cloudinary } from "cloudinary";
+import fs from "fs";
+import { upload } from "./middlewares/multer.middleware.js";
 
 dotenv.config({ path: "./.env" });
 
@@ -296,6 +299,42 @@ mongoose
   .catch((err) => console.log("DB Connection Error:", err));
 
 const { authUser, authEmployee, authAnyUser } = authmiddleware;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+const uploadOnCloudinary = async (localFilePath) => {
+  try {
+    if (!localFilePath) {
+      console.warn("No file path provided for upload.");
+      return null;
+    }
+
+    // Upload to Cloudinary with resource_type "raw" for non-image files (like PDF)
+    const result = await cloudinary.uploader.upload(localFilePath, {
+      resource_type: "raw",
+    });
+
+    // Delete local file after successful upload
+    if (fs.existsSync(localFilePath)) {
+      fs.unlinkSync(localFilePath);
+    }
+
+    return result; // Contains .url, .secure_url, etc.
+  } catch (error) {
+    console.error("Error uploading to Cloudinary:", error);
+
+    // Delete local file even if upload failed
+    if (fs.existsSync(localFilePath)) {
+      fs.unlinkSync(localFilePath);
+    }
+
+    return null;
+  }
+};
 
 // ===== Employer Signup/Login =====
 
@@ -423,9 +462,12 @@ app.get("/logout", authAnyUser, async (req, res) => {
 
 app.get("/me", authAnyUser, (req, res) => {
   if (req.user) {
-    return res.json({ ...req.user.toObject(), role: "employer" });
+    return res.json({ ...req.user.toObject(), userType: "employer" });
   } else if (req.employee) {
-    return res.json({ ...req.employee.toObject(), role: "employee" });
+    // Option 1: Return nothing or 401 for employees
+    return res.status(401).json({ message: "Unauthorized" });
+    // Option 2: If you want to allow, return userType: "employee"
+    // return res.json({ ...req.employee.toObject(), userType: "employee" });
   } else {
     return res.status(401).json({ message: "Unauthorized" });
   }
@@ -444,6 +486,16 @@ app.put("/profile", authUser, async (req, res) => {
     res.json(updatedUser);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+});
+
+app.get("/profile", authUser, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select("-password");
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -466,6 +518,54 @@ app.get("/employee-profile", authEmployee, async (req, res) => {
     const employee = await Employee.findById(req.employee._id).select("-password");
     if (!employee) return res.status(404).json({ message: "Employee not found" });
     res.status(200).json(employee);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Resume upload endpoint for employee
+app.post(
+  "/employee-profile/upload-resume",
+  authEmployee,
+  upload.single("resume"),
+  async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: "No file uploaded" });
+      }
+      if (!req.file.mimetype.includes("pdf")) {
+        fs.unlinkSync(req.file.path);
+        return res.status(400).json({ message: "Only PDF files are allowed" });
+      }
+
+      const cloudResult = await uploadOnCloudinary(req.file.path);
+
+      if (!cloudResult || !cloudResult.secure_url) {
+        return res.status(500).json({ message: "Cloudinary upload failed" });
+      }
+
+      const updatedEmployee = await Employee.findByIdAndUpdate(
+        req.employee._id,
+        { $set: { resume: cloudResult.secure_url } },
+        { new: true }
+      );
+
+      res.json({
+        message: "Resume uploaded successfully",
+        resumeUrl: cloudResult.secure_url,
+        employee: updatedEmployee,
+      });
+    } catch (error) {
+      console.error("Resume upload error:", error);
+      res.status(500).json({ message: error.message });
+    }
+  }
+);
+
+app.delete("/employee-profile/delete-resume", authEmployee, async (req, res) => {
+  try {
+    await Employee.findByIdAndUpdate(req.employee._id, { $set: { resume: "" } });
+    res.json({ message: "Resume deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

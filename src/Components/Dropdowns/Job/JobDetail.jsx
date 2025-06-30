@@ -6,6 +6,8 @@ import { FaMapMarkerAlt, FaRegClock, FaRupeeSign, FaRocket, FaCalendarAlt, FaLap
 const JobDetail = () => {
   const { id } = useParams()
   const job = jobs[id]
+  console.log(job);
+  
 
   // State for applied status
   const [appliedJobs, setAppliedJobs] = useState(() => {

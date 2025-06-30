@@ -12,6 +12,8 @@
   "type": "module",
   "dependencies": {
     "bcrypt": "^6.0.0",
-    "cookie-parser": "^1.4.7"
+    "cloudinary": "^2.7.0",
+    "cookie-parser": "^1.4.7",
+    "multer": "^2.0.1"
   }
 }

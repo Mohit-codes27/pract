@@ -12,6 +12,7 @@ const employeeSchema = new mongoose.Schema({
   gender: String,
   languages: String,
   type: String,
+  resume: String,
 });
 
 employeeSchema.methods.generateAuthToken = function(){

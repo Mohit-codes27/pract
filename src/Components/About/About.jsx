@@ -8,16 +8,31 @@ const About = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        // Try employer endpoint first
         const res = await axios.get("http://localhost:5000/me", {
           withCredentials: true,
         })
-        setUserType(res.data.role)
-      } catch (error) {
-        console.log("Not logged in or failed to fetch role", error)
-        setUserType("guest")
-      } finally {
-        setLoading(false)
-      }
+        if (res.data && res.data.userType === "employer") {
+          setUserType("employer")
+          setLoading(false)
+          return
+        }
+      } catch {}
+
+      try {
+        // Then try employee endpoint
+        const res = await axios.get("http://localhost:5000/employee-profile", {
+          withCredentials: true,
+        })
+        if (res.data && res.data.fullName) {
+          setUserType("employee")
+          setLoading(false)
+          return
+        }
+      } catch {}
+
+      setUserType("guest")
+      setLoading(false)
     }
 
     fetchUser()

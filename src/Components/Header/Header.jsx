@@ -65,10 +65,14 @@ export default function Header() {
   }, [dropdown]);
 
   // Determine profile link based on user type/role
-  let profileLink = "/profile";
+  let profileLink = null;
 if (user?.userType === "employee") {
   profileLink = "/employee-profile";
+} else if (user?.userType === "employer") {
+  profileLink = "/profile";
 }
+
+  console.log("Redux userData:", user);
 
   return (
     <header className="shadow sticky z-50 top-0">
@@ -275,12 +279,14 @@ if (user?.userType === "employee") {
                     ref={getStartedRef}
                     className="absolute left-0 flex flex-col rounded-xl bg-white border shadow-lg mt-3.5 w-44 -ml-20"
                   >
-                    <Link
-                      to={profileLink}
-                      className="px-3 py-1.5 hover:bg-gray-100 rounded-lg border-b"
-                    >
-                      Your Application
-                    </Link>
+                    {profileLink && (
+                      <Link
+                        to={profileLink}
+                        className="px-3 py-1.5 hover:bg-gray-100 rounded-lg border-b"
+                      >
+                        Your Application
+                      </Link>
+                    )}
                     <Link
                       to="#"
                       className="px-3 py-1.5 hover:bg-gray-100 rounded-lg border-b border-t-2"
