@@ -14,7 +14,7 @@ import About from "./Components/About/About.jsx";
 import Home from "./Components/Home/Home.jsx";
 import Login from "./Components/Login.jsx";
 import SignUp from "./Components/SignUp.jsx";
-import { Contact, PrivacyPage, ProfilePage, Setting, SignUp2, Information, JobPost, InternshipDetail, JobDetail, CourseDetail } from "./Components/index.js";
+import { Contact, PrivacyPage, ProfilePage, Setting, SignUp2, Information, JobPost, InternshipDetail, JobDetail, CourseDetail, AbroadPage, MentorPage, BookPage } from "./Components/index.js";
 import Login2 from "./Components/Login2.jsx";
 import ProfilePage2 from "./Components/Profile/profilePage2.jsx";
 
@@ -38,8 +38,12 @@ const router = createBrowserRouter([
       { path: "information", element: <Information /> },
       { path: "job-post", element: <JobPost /> },
       { path: "internships", element: <InternshipDetail /> },
+      { path: "internship/:id", element: <InternshipDetail /> },
       { path: "jobs", element: <JobDetail /> },
       { path: "courses", element: <CourseDetail /> },
+      { path: "abroad", element: <AbroadPage /> },
+      { path: "mentor", element: <MentorPage /> },
+      { path: "book", element: <BookPage /> },
       
       
     ]
