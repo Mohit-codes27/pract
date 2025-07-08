@@ -146,60 +146,6 @@ export default function ProfilePage() {
             </p>
           )}
         </div>
-
-        {/* Achievements Section */}
-        <div className="text-left w-full">
-          <h3 className="text-xl font-bold mb-4 flex items-center">
-            <Trophy className="inline mr-2" size={20} />
-            Achievements
-          </h3>
-          <div className="space-y-4">
-            {Object.entries(achievementData).map(
-              ([
-                key,
-                { label, value, total, color, isPercentage, isCheck },
-              ]) => {
-                const percent = isPercentage
-                  ? value
-                  : Math.min((value / total) * 100, 100);
-                return (
-                  <div key={key}>
-                    <div className="flex justify-between mb-1">
-                      <span className="text-gray-700 text-md font-medium">
-                        {label}
-                      </span>
-                      <span className="text-gray-600 text-sm">
-                        {isCheck ? (
-                          value === total ? (
-                            <CheckCircle
-                              className="inline text-green-500"
-                              size={18}
-                            />
-                          ) : (
-                            <XCircle
-                              className="inline text-red-500"
-                              size={18}
-                            />
-                          )
-                        ) : isPercentage ? (
-                          `${percent}%`
-                        ) : (
-                          `${value} / ${total}`
-                        )}
-                      </span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3">
-                      <div
-                        className={`bg-${color}-500 h-3 rounded-full`}
-                        style={{ width: `${percent}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                );
-              }
-            )}
-          </div>
-        </div>
       </div>
 
       {/* RIGHT CONTENT AREA */}
