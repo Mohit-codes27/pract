@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { LogoutBtn } from "../index";
+import { useState, useEffect, useRef } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+import { logout } from "../../store/authSlice";
 import Logo from "./Logo.png";
 import "./styles.css";
 
@@ -11,12 +12,32 @@ export default function Header() {
   const jobsRef = useRef(null);
   const coursesRef = useRef(null);
   const getStartedRef = useRef(null);
+  const loginRef = useRef(null);
 
   const authStatus = useSelector((state) => state.auth.status);
-  const user = useSelector((state) => state.auth.user); // 👈 your own user from Redux
+  const user = useSelector((state) => state.auth.userData);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const toggleDropdown = (dropdownName) => {
     setDropdown((prev) => (prev === dropdownName ? "" : dropdownName));
+  };
+
+  const logoutHandler = async () => {
+    try {
+      await axios.get("http://localhost:5000/logout", {
+        withCredentials: true,
+      });
+      dispatch(logout());
+      navigate("/login");
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        dispatch(logout());
+        navigate("/login");
+      } else {
+        console.error("Logout failed:", error);
+      }
+    }
   };
 
   useEffect(() => {
@@ -29,7 +50,8 @@ export default function Header() {
           (jobsRef.current && jobsRef.current.contains(event.target)) ||
           (coursesRef.current && coursesRef.current.contains(event.target)) ||
           (getStartedRef.current &&
-            getStartedRef.current.contains(event.target))
+            getStartedRef.current.contains(event.target)) ||
+          (loginRef.current && loginRef.current.contains(event.target))
         )
       ) {
         setDropdown("");
@@ -41,6 +63,16 @@ export default function Header() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dropdown]);
+
+  // Determine profile link based on user type/role
+  let profileLink = null;
+if (user?.userType === "employee") {
+  profileLink = "/employee-profile";
+} else if (user?.userType === "employer") {
+  profileLink = "/profile";
+}
+
+  console.log("Redux userData:", user);
 
   return (
     <header className="shadow sticky z-50 top-0">
@@ -169,12 +201,33 @@ export default function Header() {
 
           {!authStatus ? (
             <div className="flex items-center lg:order-2 w-[15vw]">
-              <Link
-                to="/login"
+              <button
+                onClick={() => toggleDropdown("login")}
                 className="text-[#0a66c2] hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
               >
                 Log in
-              </Link>
+              </button>
+              {dropdown === "login" && (
+                <div
+                  ref={loginRef}
+                  className="absolute right-30 flex flex-col bg-white border shadow-lg mt-36 w-52 rounded-xl"
+                >
+                  <Link
+                    to="/login"
+                    onClick={(e) => e.stopPropagation()}
+                    className="px-4 py-2 hover:bg-gray-100 flex justify-center rounded-lg border-b-2"
+                  >
+                    Employer Login In
+                  </Link>
+                  <Link
+                    to="/employee-login"
+                    onClick={(e) => e.stopPropagation()}
+                    className="px-4 py-2 hover:bg-gray-100 flex justify-center rounded-lg border-t-2"
+                  >
+                    Employee Login In
+                  </Link>
+                </div>
+              )}
               <div className="relative">
                 <button
                   onClick={() => toggleDropdown("getStarted")}
@@ -195,7 +248,7 @@ export default function Header() {
                       Employer Sign Up
                     </Link>
                     <Link
-                      to="/signup2"
+                      to="/employee-signup"
                       onClick={(e) => e.stopPropagation()}
                       className="px-4 py-2 hover:bg-gray-100 flex justify-center rounded-lg border-t-2"
                     >
@@ -208,12 +261,68 @@ export default function Header() {
           ) : (
             <div className="flex items-center lg:order-2 w-[15vw] justify-center">
               <span className="mr-4 text-[#0a66c2] font-medium">
-                {user?.name ? `Hi, ${user.name}` : "Hi!"}
+                {user?.fullName ? `Hi, ${user.fullName}` : "Hi!"}
               </span>
-              <LogoutBtn />
+              <div className="relative">
+                <button
+                  onClick={() => toggleDropdown("profile")}
+                  className="cursor-pointer w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center"
+                >
+                  <img
+                    src="https://ohsobserver.com/wp-content/uploads/2022/12/Guest-user.png"
+                    alt=""
+                    className="w-10 h-10 rounded-full"
+                  />
+                </button>
+                {dropdown === "profile" && (
+                  <div
+                    ref={getStartedRef}
+                    className="absolute left-0 flex flex-col rounded-xl bg-white border shadow-lg mt-3.5 w-44 -ml-20"
+                  >
+                    {profileLink && (
+                      <Link
+                        to={profileLink}
+                        className="px-3 py-1.5 hover:bg-gray-100 rounded-lg border-b"
+                      >
+                        Your Application
+                      </Link>
+                    )}
+                    <Link
+                      to="#"
+                      className="px-3 py-1.5 hover:bg-gray-100 rounded-lg border-b border-t-2"
+                    >
+                      Performance Tracker
+                    </Link>
+                    <Link
+                      to="/privacy"
+                      className="px-3 py-1.5 hover:bg-gray-100 rounded-lg border-t-2"
+                    >
+                      Privacy
+                    </Link>
+                    <Link
+                      to="/contact"
+                      className="px-3 py-1.5 hover:bg-gray-100 rounded-lg border-t-2"
+                    >
+                      Contact Us
+                    </Link>
+                    <Link
+                      to="/setting"
+                      className="px-3 py-1.5 hover:bg-gray-100 rounded-lg border-t-2"
+                    >
+                      Settings
+                    </Link>
+                    <button
+                      onClick={logoutHandler}
+                      className="px-4 py-2 text-red-600 hover:text-red-700 hover:bg-gray-100 rounded-lg border-t-2 text-left w-full"
+                      type="button"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           )}
-
 
           <div
             className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1 mr-48"
@@ -224,7 +333,8 @@ export default function Header() {
                 <NavLink
                   to="/"
                   className={({ isActive }) =>
-                    `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-500" : "text-gray-700"
+                    `block py-2 pr-4 pl-3 duration-200 ${
+                      isActive ? "text-blue-500" : "text-gray-700"
                     } border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-400 lg:p-0`
                   }
                 >
@@ -235,7 +345,8 @@ export default function Header() {
                 <NavLink
                   to="/about"
                   className={({ isActive }) =>
-                    `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-500" : "text-gray-700"
+                    `block py-2 pr-4 pl-3 duration-200 ${
+                      isActive ? "text-blue-500" : "text-gray-700"
                     } border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-400 lg:p-0`
                   }
                 >
@@ -246,7 +357,8 @@ export default function Header() {
                 <NavLink
                   to="/information"
                   className={({ isActive }) =>
-                    `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-500" : "text-gray-700"
+                    `block py-2 pr-4 pl-3 duration-200 ${
+                      isActive ? "text-blue-500" : "text-gray-700"
                     } border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-400 lg:p-0`
                   }
                 >
@@ -257,7 +369,8 @@ export default function Header() {
                 <NavLink
                   to="/job-post"
                   className={({ isActive }) =>
-                    `block py-2 pr-4 pl-3 duration-200 ${isActive ? "text-blue-500" : "text-gray-700"
+                    `block py-2 pr-4 pl-3 duration-200 ${
+                      isActive ? "text-blue-500" : "text-gray-700"
                     } border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 hover:text-blue-400 lg:p-0`
                   }
                 >

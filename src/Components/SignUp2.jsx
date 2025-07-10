@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import authService from '../appwrite/auth';
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { login } from '../store/authSlice';
+import { login as reduxLogin } from '../store/authSlice';
 import { Button, Input } from './index';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
@@ -30,12 +29,37 @@ function SignUp2() {
             return;
         }
 
+        // Prepare form data for backend
+        const formData = {
+            fullName: data.name?.trim(),
+            email: data.email?.trim(),
+            password: data.password,
+            phone: data.phone?.trim(),
+            city: data.city,
+            gender: data.gender,
+            languages: data.languages, // comma-separated string
+            type: data.type,           // comma-separated string
+        };
+
         try {
-            const userData = await authService.createAccount(data);
-            if (userData) {
-                dispatch(login(userData));
-                navigate('/');
+            const response = await fetch("http://localhost:5000/employee-signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
+                credentials: "include", // Include cookies for session management
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                setError(result.message || "This email is already registered. Try another one.");
+                return;
             }
+
+            // Immediately update Redux state so header/profile updates
+            dispatch(reduxLogin({ userData: { ...result.user, userType: "employee" } }));
+
+            navigate("/");
         } catch (error) {
             setError(error.message || "An error occurred during sign-up.");
         }

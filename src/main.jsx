@@ -1,120 +1,61 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Home from './Components/Home/Home.jsx'
-import About from './Components/About/About.jsx'
-import Information from './Components/Information/Information.jsx'
-import { AuthLayout, SignUp, Setting, PrivacyPage, Contact, Login, SignUp2, ProfilePage, AbroadPage, MentorPage, InternshipFilter, InternshipDetail, JobDetail, JobFilter, CourseDetail, CourseFilter, BookPage, JobPost } from './Components/index.js'
-import { Provider } from 'react-redux'
-import store from './store/store.js'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./store/store.js";
+import App from "./App.jsx";
+import "./index.css";
+
+// Context Provider (only for user data)
+import UserContext from "./Components/Context/UserContext.jsx";
+
+// Your route components
+import About from "./Components/About/About.jsx";
+import Home from "./Components/Home/Home.jsx";
+import Login from "./Components/Login.jsx";
+import SignUp from "./Components/SignUp.jsx";
+import { Contact, PrivacyPage, ProfilePage, Setting, SignUp2, Information, JobPost, InternshipDetail, JobDetail, CourseDetail, AbroadPage, MentorPage, BookPage } from "./Components/index.js";
+import Login2 from "./Components/Login2.jsx";
+import ProfilePage2 from "./Components/Profile/profilePage2.jsx";
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <App />, // App.jsx must include <Outlet />
+    path: "/",
+    element: <App />,
     children: [
-      {
-        path: '', // Root route
-        element: <Home/>
-      },
-      {
-        path: 'about',
-        element: <About/>
-      },
-      {
-        path: 'information',
-        element: <Information/>
-      },
-      {
-        path: 'contact',
-        element: <Contact/>
-      },
-      {
-        path: 'privacy',
-        element: <PrivacyPage/>
-      },
-      {
-        path: 'abroad',
-        element: <AbroadPage/>
-      },
-      {
-        path: 'setting',
-        element: <Setting/>
-      },
-      {
-        path: 'book',
-        element: <BookPage/>
-      },
-      {
-        path: 'profile',
-        element: <ProfilePage/>
-      },
-      {
-        path: 'mentor',
-        element: <MentorPage/>
-      },
-      {
-        path: 'internships',
-        element: <InternshipFilter/>
-      },
-      {
-        path: 'internship/:id',
-        element: <InternshipDetail/>
-      },
-      {
-        path: 'jobs',
-        element: <JobFilter/>
-      },
-      {
-        path: 'job-post',
-        element: <JobPost/>
-      },
-      {
-        path: 'job/:id',
-        element: <JobDetail/>
-      },
-      {
-        path: 'courses',
-        element: <CourseFilter/>
-      },
-      {
-        path: 'course/:id',
-        element: <CourseDetail/>
-      },
-      {
-        path: 'login',
-        element: (
-          <AuthLayout authentication={false}>
-            <Login />
-          </AuthLayout>
-        )
-      },
-      {
-        path: 'signup',
-        element: (
-          <AuthLayout authentication={false}>
-            <SignUp />
-          </AuthLayout>
-        )
-      },
-      {
-        path: 'signup2',
-        element: (
-          <AuthLayout authentication={false}>
-            <SignUp2 />
-          </AuthLayout>
-        )
-      }
+      { path: "", element: <Home /> },
+      { path: "about", element: <About /> },
+      { path: "login", element: <Login /> },
+      { path: "signup", element: <SignUp /> },
+      { path: "profile", element: <ProfilePage/> },
+      { path: "employee-signup", element: <SignUp2/>},
+      { path: "employee-login", element: <Login2/> },
+      { path: "employee-profile", element: <ProfilePage2/> },
+      { path: "privacy", element: <PrivacyPage /> },
+      { path: "contact", element: <Contact /> },
+      { path: "setting", element: <Setting /> },
+      { path: "about", element: <About /> },
+      { path: "information", element: <Information /> },
+      { path: "job-post", element: <JobPost /> },
+      { path: "internships", element: <InternshipDetail /> },
+      { path: "internship/:id", element: <InternshipDetail /> },
+      { path: "jobs", element: <JobDetail /> },
+      { path: "courses", element: <CourseDetail /> },
+      { path: "abroad", element: <AbroadPage /> },
+      { path: "mentor", element: <MentorPage /> },
+      { path: "book", element: <BookPage /> },
+      
+      
     ]
   }
-])
+]);
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router}/>
+      <UserContext>
+        <RouterProvider router={router} />
+      </UserContext>
     </Provider>
-  </StrictMode>,
-)
+  </React.StrictMode>
+);

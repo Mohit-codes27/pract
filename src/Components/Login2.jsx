@@ -7,7 +7,7 @@ import { Button, Input, PassInput } from "./index";
 import Image from "./Home/images/InternLogo.png";
 import "./Header/styles.css";
 
-function Login() {
+function Login2() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [error, setError] = useState("");
@@ -22,7 +22,7 @@ function Login() {
         setError("");
 
         try {
-            const response = await fetch("http://localhost:5000/login", {
+            const response = await fetch("http://localhost:5000/employee-login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -38,7 +38,7 @@ function Login() {
             }
 
             // Dispatch Redux action to update user state
-            dispatch(authLogin({ userData: { ...result.user, userType: "employer" } }));
+            dispatch(authLogin({ userData: { ...result.user, userType: "employee" } }));
 
             // Navigate to homepage
             navigate("/");
@@ -89,10 +89,10 @@ function Login() {
 
                         {/* Right Section */}
                         <form onSubmit={handleSubmit(login)} className="p-6 flex flex-col justify-center">
-                            <h2 className="text-center text-2xl font-bold leading-tight">Sign In To Your Employer Account</h2>
+                            <h2 className="text-center text-2xl font-bold leading-tight">Sign In To Your Employee Account</h2>
                             <p className="mt-2 text-center text-base text-black/60">
                                 Don’t have an account?{" "}
-                                <Link to="/signup" className="font-medium text-primary hover:underline">
+                                <Link to="/employee-signup" className="font-medium text-primary hover:underline">
                                     Sign Up
                                 </Link>
                             </p>
@@ -153,4 +153,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default Login2;
