@@ -21,10 +21,10 @@ import CourseDetail from "./Dropdowns/Course/CourseDetail";
 import CourseFilter from "./Dropdowns/Course/CourseFilter";
 import BookPage from "./Session/Book";
 import MentorPage from "./Mentorship/Mentor";
-import ProfilePage from "./Profile/ProfilePage";
+import ProfilePage from "./Profile/ProfilePage.jsx";
 import Setting from "./Setting";
-import PrivacyPage from './PrivacyPolicy';
+// import PrivacyPage from "./PrivacyPolicy";
 import PassInput from "./Input/passInput";
 import JobPost from "./JobPost";
 
-export {Header, LogoutBtn, Footer, Home, About, PassInput, Contact, Login, Input, Button,SignUp2, AuthLayout, SignUp, Modal, AbroadPage, InternshipFilter, InternshipDetail, Setting, PrivacyPage, JobDetail, JobFilter, CourseDetail, CourseFilter, BookPage, MentorPage, ProfilePage, JobPost, Information};
+export {Header, LogoutBtn, Footer, Home, About, PassInput, Contact, Login, Input, Button,SignUp2, AuthLayout, SignUp, Modal, AbroadPage, InternshipFilter, InternshipDetail, Setting, JobDetail, JobFilter, CourseDetail, CourseFilter, BookPage, MentorPage, ProfilePage, JobPost, Information};

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import internshipImage from "./images/Internships.jpg";
 import MentorImage from "./images/mentor.webp";
 import CourseImage from "./images/courses.png"

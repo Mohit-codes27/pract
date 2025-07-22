@@ -31,7 +31,7 @@
 //   );
 // }
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 const PrivacyContent = () => (
@@ -96,7 +96,7 @@ const PasswordChangeForm = () => {
       setNewPassword("");
       setConfirmPassword("");
     } catch (error) {
-      setMessage("An error occurred. Please try again.");
+      setMessage("An error occurred. Please try again.", error);
     }
   };
 
