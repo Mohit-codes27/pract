@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import achievementData from "./achievementsData";
+// import achievementData from "./achievementsData";
 import {
   User,
   Mail,
@@ -11,10 +11,7 @@ import {
   Briefcase,
   Home,
   FileText,
-  Trophy,
   PencilLine,
-  XCircle,
-  CheckCircle,
 } from "lucide-react";
 
 export default function ProfilePage() {
@@ -22,7 +19,7 @@ export default function ProfilePage() {
   const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(true);
-
+  const [dummyApplications, setApplications] = useState(true);
   // Fetch profile on mount
   useEffect(() => {
     async function fetchProfile() {
@@ -39,6 +36,30 @@ export default function ProfilePage() {
       }
     }
     fetchProfile();
+  }, []);
+  useEffect(() => {
+    const dummyApplications = [
+      {
+        title: "Frontend Developer Internship",
+        type: "Internship",
+        location: "Remote",
+        createdAt: "2025-07-01T10:22:00Z",
+      },
+      {
+        title: "Backend Engineer",
+        type: "Job",
+        location: "Mumbai",
+        createdAt: "2025-06-20T15:00:00Z",
+      },
+      {
+        title: "UI/UX Designer Internship",
+        type: "Internship",
+        location: "Delhi",
+        createdAt: "2025-07-05T09:00:00Z",
+      },
+    ];
+
+    setApplications(dummyApplications);
   }, []);
 
   const handleChange = (e) => {
@@ -93,7 +114,9 @@ export default function ProfilePage() {
             className="w-40 h-40 rounded-full mx-auto border-4 border-white shadow-lg"
           />
           <h2 className="text-3xl font-bold mt-4">{profile.fullName}</h2>
-          <p className="text-gray-500 text-lg">@{profile.username || "username"}</p>
+          <p className="text-gray-500 text-lg">
+            @{profile.username || "username"}
+          </p>
           <p className="text-gray-700 font-semibold text-lg">
             {profile.companyType || "Your Organization"}
           </p>
@@ -115,51 +138,10 @@ export default function ProfilePage() {
               className="w-full border rounded-md p-2 text-gray-700"
             />
           ) : (
-            <p className="text-gray-600 text-md">{profile.about || "Tell us about yourself."}</p>
+            <p className="text-gray-600 text-md">
+              {profile.about || "Tell us about yourself."}
+            </p>
           )}
-        </div>
-
-        {/* Achievements Section */}
-        <div className="text-left w-full">
-          <h3 className="text-xl font-bold mb-4 flex items-center">
-            <Trophy className="inline mr-2" size={20} />
-            Achievements
-          </h3>
-          <div className="space-y-4">
-            {Object.entries(achievementData).map(
-              ([key, { label, value, total, color, isPercentage, isCheck }]) => {
-                const percent = isPercentage
-                  ? value
-                  : Math.min((value / total) * 100, 100);
-                return (
-                  <div key={key}>
-                    <div className="flex justify-between mb-1">
-                      <span className="text-gray-700 text-md font-medium">{label}</span>
-                      <span className="text-gray-600 text-sm">
-                        {isCheck ? (
-                          value === total ? (
-                            <CheckCircle className="inline text-green-500" size={18} />
-                          ) : (
-                            <XCircle className="inline text-red-500" size={18} />
-                          )
-                        ) : isPercentage ? (
-                          `${percent}%`
-                        ) : (
-                          `${value} / ${total}`
-                        )}
-                      </span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3">
-                      <div
-                        className={`bg-${color}-500 h-3 rounded-full`}
-                        style={{ width: `${percent}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                );
-              }
-            )}
-          </div>
         </div>
       </div>
 
@@ -187,17 +169,60 @@ export default function ProfilePage() {
           </div>
 
           {editing ? (
-            <form className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <form
+              className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+              onSubmit={handleSave}
+            >
               {[
-                ["Full Name", "fullName", "text", <User className="inline mr-2" size={18} />],
-                ["Email", "email", "email", <Mail className="inline mr-2" size={18} />],
-                ["Phone", "phone", "text", <Phone className="inline mr-2" size={18} />],
-                ["City", "city", "text", <Landmark className="inline mr-2" size={18} />],
-                ["Company Type", "companyType", "text", <Building2 className="inline mr-2" size={18} />],
-                ["Work Field", "workField", "text", <Brain className="inline mr-2" size={18} />],
-                ["Role", "role", "text", <Briefcase className="inline mr-2" size={18} />],
-                ["Address", "address", "text", <Home className="inline mr-2" size={18} />],
-              ].map(([label, name, type, icon]) => (
+                {
+                  label: "Full Name",
+                  name: "name",
+                  type: "text",
+                  icon: <User className="inline mr-2" size={18} />,
+                },
+                {
+                  label: "Email",
+                  name: "email",
+                  type: "email",
+                  icon: <Mail className="inline mr-2" size={18} />,
+                },
+                {
+                  label: "Phone",
+                  name: "phone",
+                  type: "text",
+                  icon: <Phone className="inline mr-2" size={18} />,
+                },
+                {
+                  label: "City",
+                  name: "city",
+                  type: "text",
+                  icon: <Landmark className="inline mr-2" size={18} />,
+                },
+                {
+                  label: "Company Type",
+                  name: "companyType",
+                  type: "text",
+                  icon: <Building2 className="inline mr-2" size={18} />,
+                },
+                {
+                  label: "Work Field",
+                  name: "workField",
+                  type: "text",
+                  icon: <Brain className="inline mr-2" size={18} />,
+                },
+                {
+                  label: "Role",
+                  name: "role",
+                  type: "text",
+                  icon: <Briefcase className="inline mr-2" size={18} />,
+                },
+                {
+                  label: "Address",
+                  name: "address",
+                  type: "text",
+                  icon: <Home className="inline mr-2" size={18} />,
+                },
+              ].map(({ label, name, type, icon }) => (
                 <div key={name}>
                   <label className="block font-semibold text-gray-700 mb-1">
                     {icon}
@@ -206,13 +231,21 @@ export default function ProfilePage() {
                   <input
                     type={type}
                     name={name}
-                    value={formData[name] || ""}
+                    value={formData?.[name] || ""}
                     onChange={handleChange}
                     disabled={name === "email"}
                     className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                   />
                 </div>
               ))}
+              <div className="col-span-2 flex justify-end">
+                <button
+                  type="submit"
+                  className="bg-green-500 hover:bg-green-600 text-white text-lg px-6 py-2 rounded-full"
+                >
+                  Save Changes
+                </button>
+              </div>
             </form>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-lg text-gray-700">
@@ -253,7 +286,7 @@ export default function ProfilePage() {
         </div>
 
         {/* Resume Upload (You can connect with Cloudinary here later) */}
-        <div className="bg-white shadow-lg rounded-xl p-6">
+        {/* <div className="bg-white shadow-lg rounded-xl p-6">
           <h3 className="text-2xl font-bold mb-4 flex items-center">
             <FileText className="inline mr-2" size={22} />
             Resume Upload
@@ -276,6 +309,40 @@ export default function ProfilePage() {
               Upload (Coming Soon)
             </button>
           </div>
+        </div> */}
+        {/* Open Applications Section */}
+        <div className="bg-white shadow-lg rounded-xl p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-2xl font-bold flex items-center">
+              <FileText className="inline mr-2" size={22} />
+              Open Applications
+            </h3>
+            <span className="text-sm text-gray-500 font-medium">
+              Uploaded: {dummyApplications.length}
+            </span>
+          </div>
+
+          <p className="text-gray-600 text-md mb-3">
+            Here are all the applications you've posted.
+          </p>
+
+          {dummyApplications.length > 0 ? (
+            <ul className="divide-y divide-gray-200">
+              {dummyApplications.map((app, index) => (
+                <li key={index} className="py-3">
+                  <h4 className="text-lg font-semibold">{app.title}</h4>
+                  <p className="text-sm text-gray-600">
+                    {app.type} • {app.location} • Posted on{" "}
+                    {new Date(app.createdAt).toLocaleDateString()}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-500">
+              You have not posted any applications yet.
+            </p>
+          )}
         </div>
       </div>
     </div>

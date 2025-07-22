@@ -1,259 +1,183 @@
-import { useEffect, useState } from "react";
+import React from "react";
+import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
 
-// Dummy achievements data
-const achievementData = {
-  internships: {
-    label: "Internships Completed",
-    value: 3,
-    total: 5,
-    color: "yellow",
-    isPercentage: false,
-    isCheck: false,
-  },
-  jobs: {
-    label: "Jobs Applied",
-    value: 3,
-    total: 10,
-    color: "blue",
-    isPercentage: false,
-    isCheck: false,
-  },
-  profile: {
-    label: "Profile Completion",
-    value: 60,
-    total: 100,
-    color: "green",
-    isPercentage: true,
-    isCheck: false,
-  },
-};
-
-export default function ProfilePage() {
-  const [profile, setProfile] = useState(null);
-  const [editing, setEditing] = useState(false);
-  const [formData, setFormData] = useState({});
-  const [loading, setLoading] = useState(true);
-
-  // Simulate fetching user data
-  useEffect(() => {
-    const dummyProfile = {
-      name: "Aaditya Aggarwal",
-      email: "aaditya@gmail.com",
-      phone: "9876543210",
-      city: "Delhi",
-      gender: "Male",
-      type: "Fresher",
-      languages: "English,Hindi",
-      username: "aaditya123",
-      avatar: "",
-    };
-
-    setTimeout(() => {
-      setProfile(dummyProfile);
-      setFormData(dummyProfile);
-      setLoading(false);
-    }, 1000); // simulate 1 sec loading
-  }, []);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSave = () => {
-    setProfile(formData);
-    setEditing(false);
-  };
-
-  if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-        <div className="w-12 h-12 border-4 border-gray-300 border-t-[#0a66c2] rounded-full animate-spin"></div>
-        <h2 className="mt-4 text-lg font-medium text-gray-700">
-          Loading, please wait...
-        </h2>
-      </div>
-    );
-  }
-
+const ContactUs = () => {
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-row gap-6 p-6">
-      {/* LEFT SIDEBAR */}
-      <div className="w-1/3 bg-white shadow-lg rounded-xl p-6 text-center space-y-6">
-        {/* Avatar + Info */}
-        <div>
-          <img
-            src={
-              profile.avatar ||
-              "https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"
-            }
-            alt="Avatar"
-            className="w-40 h-40 rounded-full mx-auto border-4 border-white shadow-lg"
-          />
-          <h2 className="text-3xl font-bold mt-4">{profile.fullName}</h2>
-          <p className="text-gray-500 text-lg">@{profile.username}</p>
-          <p className="text-gray-700 font-semibold text-lg">
-            {profile.workField}
-          </p>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="text-center mb-12">
+        <h1 className="text-4xl font-extrabold text-blue-600">CONTACT US</h1>
+        <div className="w-24 h-1 bg-blue-500 mx-auto mt-2 mb-6"></div>
+        <h2 className="text-2xl font-bold text-gray-800">
+          We’re here to help you grow!
+        </h2>
+        <p className="mt-4 text-lg text-gray-600">
+          Have questions about internships, mentorships, or job listings?
+        </p>
+        <p className="text-lg text-gray-600">
+          Reach out anytime — we're available 24/7!
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
+        {/* Contact Info */}
+        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+          <div className="p-8">
+            <h3 className="text-2xl font-bold text-gray-800 mb-6">
+              Get In Touch
+            </h3>
+
+            <div className="space-y-6">
+              <div className="flex items-start">
+                <Mail className="h-6 w-6 text-blue-500" />
+                <div className="ml-3">
+                  <p className="text-sm font-medium text-gray-900">Email</p>
+                  <p className="text-sm text-gray-500">
+                    support@internswallah.com
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start">
+                <Phone className="h-6 w-6 text-blue-500" />
+                <div className="ml-3">
+                  <p className="text-sm font-medium text-gray-900">Phone</p>
+                  <p className="text-sm text-gray-500">+91 70119 89792</p>
+                </div>
+              </div>
+
+              <div className="flex items-start">
+                <MapPin className="h-6 w-6 text-blue-500" />
+                <div className="ml-3">
+                  <p className="text-sm font-medium text-gray-900">Office</p>
+                  <p className="text-sm text-gray-500">
+                    Internswallah HQ
+                    <br />
+                    New Delhi, India
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start">
+                <MessageCircle className="h-6 w-6 text-blue-500" />
+                <div className="ml-3">
+                  <p className="text-sm font-medium text-gray-900">WhatsApp</p>
+                  <a
+                    href="https://wa.me/917011989792"
+                    className="inline-flex items-center px-4 py-2 mt-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  >
+                    Chat with Us
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* About */}
-        <div className="text-left">
-          <h3 className="text-xl font-bold mb-2">📝 About</h3>
-          {editing ? (
-            <textarea
-              name="about"
-              value={formData.about}
-              onChange={handleChange}
-              rows="4"
-              className="w-full border rounded-md p-2 text-gray-700"
-            />
-          ) : (
-            <p className="text-gray-600 text-md">{profile.about}</p>
-          )}
-        </div>
+        {/* Contact Form */}
+        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+          <div className="p-8">
+            <h3 className="text-2xl font-bold text-gray-800 mb-6">
+              Send a Message
+            </h3>
+            <form className="space-y-6">
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  placeholder="Jane Intern"
+                />
+              </div>
 
-        {/* Achievements */}
-        <div className="text-left w-full">
-          <h3 className="text-xl font-bold mb-4">🏆 Achievements</h3>
-          <div className="space-y-4">
-            {Object.entries(achievementData).map(
-              ([
-                key,
-                { label, value, total, color, isPercentage, isCheck },
-              ]) => {
-                const percent = isPercentage
-                  ? value
-                  : Math.min((value / total) * 100, 100);
-                return (
-                  <div key={key}>
-                    <div className="flex justify-between mb-1">
-                      <span className="text-gray-700 text-md font-medium">
-                        {label}
-                      </span>
-                      <span className="text-gray-600 text-sm">
-                        {isCheck
-                          ? value === total
-                            ? "✔️"
-                            : "❌"
-                          : isPercentage
-                          ? `${percent}%`
-                          : `${value} / ${total}`}
-                      </span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3">
-                      <div
-                        className={`bg-${color}-500 h-3 rounded-full`}
-                        style={{ width: `${percent}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                );
-              }
-            )}
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  placeholder="jane@example.com"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="phone"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Phone
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  id="phone"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  placeholder="Your contact number"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={4}
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  placeholder="How can we assist you?"
+                ></textarea>
+              </div>
+
+              <div>
+                <button
+                  type="submit"
+                  className="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  Send Message
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
 
-      {/* RIGHT MAIN CONTENT */}
-      <div className="w-2/3 space-y-6">
-        {/* Profile Details Section */}
-        <div className="bg-white shadow-xl rounded-xl p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-3xl font-bold">Profile Details</h3>
-            {editing ? (
-              <button
-                onClick={handleSave}
-                className="bg-green-500 hover:bg-green-600 text-white text-lg px-6 py-2 rounded-full"
-              >
-                Save Changes
-              </button>
-            ) : (
-              <button
-                onClick={() => setEditing(true)}
-                className="bg-blue-500 hover:bg-blue-600 text-white text-lg px-6 py-2 rounded-full"
-              >
-                Edit Profile
-              </button>
-            )}
-          </div>
-
-          {/* Fields */}
-          {editing ? (
-            <form className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {[
-                ["Name", "name"],
-                ["Email", "email"],
-                ["Phone", "phone"],
-                ["City", "city"],
-                ["Gender", "gender"],
-                ["Type", "type"],
-                ["Languages", "languages"],
-              ].map(([label, name]) => (
-                <div key={name}>
-                  <label className="block font-semibold text-gray-700 mb-1">
-                    {label}
-                  </label>
-                  <input
-                    type="text"
-                    name={name}
-                    value={formData[name]}
-                    onChange={handleChange}
-                    disabled={name === "email"}
-                    className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  />
-                </div>
-              ))}
-            </form>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-lg text-gray-700">
-              <p>
-                <b>📛 Name:</b> {profile.name}
-              </p>
-
-              <p>
-                <b>📧 Email:</b> {profile.email}
-              </p>
-              <p>
-                <b>📱 Phone:</b> {profile.phone}
-              </p>
-              <p>
-                <b>🏙️ City:</b> {profile.city}
-              </p>
-              <p>
-                <b>⚧️ Gender:</b> {profile.gender}
-              </p>
-              <p>
-                <b>👤 Type:</b> {profile.type}
-              </p>
-              <p>
-                <b>🗣️ Languages:</b> {profile.languages}
-              </p>
-            </div>
-          )}
-        </div>
-
-        {/* Resume Upload Placeholder */}
-        <div className="bg-white shadow-lg rounded-xl p-6">
-          <h3 className="text-2xl font-bold mb-4">Resume Upload</h3>
-          <p className="text-gray-600 text-md mb-3">
-            Upload your resume to apply faster!
-          </p>
-          <div className="flex flex-col sm:flex-row items-center gap-4">
-            <input
-              type="file"
-              accept=".pdf"
-              className="border p-2 rounded w-full"
-              disabled
-            />
-            <button
-              className="bg-blue-500 text-white px-4 py-2 rounded w-full sm:w-auto"
-              disabled
-            >
-              Upload (Coming Soon)
-            </button>
+      {/* Google Maps */}
+      <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-16">
+        <div className="p-6">
+          <h3 className="text-xl font-bold text-gray-800 mb-4">Find Us Here</h3>
+          <div className="aspect-w-16 aspect-h-9">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224345.48429062043!2d77.06889736546224!3d28.52758200762379!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce3a887fefcc5%3A0x63bb4315ef5e7a54!2sNew%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1717755555555!5m2!1sen!2sin"
+              width="100%"
+              height="450"
+              style={{ border: 0 }}
+              allowFullScreen={true}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Internswallah Location"
+              className="rounded-md"
+            ></iframe>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default ContactUs;

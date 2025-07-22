@@ -268,6 +268,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import User from "./models/user.model.js";
 import Employee from "./models/employee.model.js";
+import JobPost from "./models/jobPost.model.js";
 import userService from "./services/user.service.js";
 import employeeService from "./services/employee.service.js";
 import blacklistTokenModel from "./models/blacklist.model.js";
