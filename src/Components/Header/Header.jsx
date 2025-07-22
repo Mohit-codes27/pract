@@ -66,11 +66,11 @@ export default function Header() {
 
   // Determine profile link based on user type/role
   let profileLink = null;
-if (user?.userType === "employee") {
-  profileLink = "/employee-profile";
-} else if (user?.userType === "employer") {
-  profileLink = "/profile";
-}
+  if (user?.userType === "employee") {
+    profileLink = "/employee-profile";
+  } else if (user?.userType === "employer") {
+    profileLink = "/profile";
+  }
 
   console.log("Redux userData:", user);
 
@@ -287,12 +287,14 @@ if (user?.userType === "employee") {
                         Your Application
                       </Link>
                     )}
-                    <Link
-                      to="#"
-                      className="px-3 py-1.5 hover:bg-gray-100 rounded-lg border-b border-t-2"
-                    >
-                      Performance Tracker
-                    </Link>
+                    {user?.userType === "employee" && (
+                      <Link
+                        to="/performance"
+                        className="px-3 py-1.5 hover:bg-gray-100 rounded-lg border-b border-t-2"
+                      >
+                        Performance Tracker
+                      </Link>
+                    )}
                     <Link
                       to="/privacy"
                       className="px-3 py-1.5 hover:bg-gray-100 rounded-lg border-t-2"

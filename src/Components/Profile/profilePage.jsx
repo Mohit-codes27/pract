@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import achievementData from "./achievementsData";
+// import achievementData from "./achievementsData";
 import {
   User,
   Mail,
@@ -11,10 +11,7 @@ import {
   Briefcase,
   Home,
   FileText,
-  Trophy,
   PencilLine,
-  XCircle,
-  CheckCircle,
 } from "lucide-react";
 
 export default function ProfilePage() {
@@ -172,57 +169,60 @@ export default function ProfilePage() {
           </div>
 
           {editing ? (
-            <form className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <form
+              className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+              onSubmit={handleSave}
+            >
               {[
-                [
-                  "Full Name",
-                  "fullName",
-                  "text",
-                  <User className="inline mr-2" size={18} />,
-                ],
-                [
-                  "Email",
-                  "email",
-                  "email",
-                  <Mail className="inline mr-2" size={18} />,
-                ],
-                [
-                  "Phone",
-                  "phone",
-                  "text",
-                  <Phone className="inline mr-2" size={18} />,
-                ],
-                [
-                  "City",
-                  "city",
-                  "text",
-                  <Landmark className="inline mr-2" size={18} />,
-                ],
-                [
-                  "Company Type",
-                  "companyType",
-                  "text",
-                  <Building2 className="inline mr-2" size={18} />,
-                ],
-                [
-                  "Work Field",
-                  "workField",
-                  "text",
-                  <Brain className="inline mr-2" size={18} />,
-                ],
-                [
-                  "Role",
-                  "role",
-                  "text",
-                  <Briefcase className="inline mr-2" size={18} />,
-                ],
-                [
-                  "Address",
-                  "address",
-                  "text",
-                  <Home className="inline mr-2" size={18} />,
-                ],
-              ].map(([label, name, type, icon]) => (
+                {
+                  label: "Full Name",
+                  name: "name",
+                  type: "text",
+                  icon: <User className="inline mr-2" size={18} />,
+                },
+                {
+                  label: "Email",
+                  name: "email",
+                  type: "email",
+                  icon: <Mail className="inline mr-2" size={18} />,
+                },
+                {
+                  label: "Phone",
+                  name: "phone",
+                  type: "text",
+                  icon: <Phone className="inline mr-2" size={18} />,
+                },
+                {
+                  label: "City",
+                  name: "city",
+                  type: "text",
+                  icon: <Landmark className="inline mr-2" size={18} />,
+                },
+                {
+                  label: "Company Type",
+                  name: "companyType",
+                  type: "text",
+                  icon: <Building2 className="inline mr-2" size={18} />,
+                },
+                {
+                  label: "Work Field",
+                  name: "workField",
+                  type: "text",
+                  icon: <Brain className="inline mr-2" size={18} />,
+                },
+                {
+                  label: "Role",
+                  name: "role",
+                  type: "text",
+                  icon: <Briefcase className="inline mr-2" size={18} />,
+                },
+                {
+                  label: "Address",
+                  name: "address",
+                  type: "text",
+                  icon: <Home className="inline mr-2" size={18} />,
+                },
+              ].map(({ label, name, type, icon }) => (
                 <div key={name}>
                   <label className="block font-semibold text-gray-700 mb-1">
                     {icon}
@@ -231,13 +231,21 @@ export default function ProfilePage() {
                   <input
                     type={type}
                     name={name}
-                    value={formData[name] || ""}
+                    value={formData?.[name] || ""}
                     onChange={handleChange}
                     disabled={name === "email"}
                     className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                   />
                 </div>
               ))}
+              <div className="col-span-2 flex justify-end">
+                <button
+                  type="submit"
+                  className="bg-green-500 hover:bg-green-600 text-white text-lg px-6 py-2 rounded-full"
+                >
+                  Save Changes
+                </button>
+              </div>
             </form>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-lg text-gray-700">
@@ -332,7 +340,7 @@ export default function ProfilePage() {
             </ul>
           ) : (
             <p className="text-gray-500">
-              You haven't posted any applications yet.
+              You have not posted any applications yet.
             </p>
           )}
         </div>

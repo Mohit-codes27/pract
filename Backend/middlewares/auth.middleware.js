@@ -22,7 +22,7 @@ export const authUser = async (req, res, next) => {
 
     return next();
   } catch (error) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: "Unauthorized" }, error);
   }
 };
 
@@ -44,8 +44,8 @@ export const authEmployee = async (req, res, next) => {
     req.employee = { ...employee._doc, role: "employee" };
 
     return next();
-  } catch (error) {
-    return res.status(401).json({ message: "Unauthorized" });
+  } catch (err) {
+    return res.status(401).json({ message: "Unauthorized", err });
   }
 };
 export const authAnyUser = async (req, res, next) => {
@@ -74,7 +74,7 @@ export const authAnyUser = async (req, res, next) => {
 
     return res.status(401).json({ message: "Unauthorized" });
   } catch (error) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: "Unauthorized", error });
   }
 };
 
