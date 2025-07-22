@@ -276,6 +276,8 @@ import authmiddleware from "./middlewares/auth.middleware.js";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 import { upload } from "./middlewares/multer.middleware.js";
+import Job from "./models/Job.model.js";
+
 
 dotenv.config({ path: "./.env" });
 
@@ -570,6 +572,23 @@ app.delete("/employee-profile/delete-resume", authEmployee, async (req, res) => 
     res.status(500).json({ message: error.message });
   }
 });
+app.post("/post-job", authUser, async (req, res) => {
+  try {
+    const jobData = req.body;
+
+    // Optionally associate the job with the logged-in employer
+    jobData.createdBy = req.user._id;
+
+    const job = new Job(jobData);
+    await job.save();
+
+    res.status(201).json({ message: "Job posted successfully", job });
+  } catch (error) {
+    console.error("Error posting job:", error);
+    res.status(500).json({ message: "Failed to post job", error: error.message });
+  }
+});
+
 
 // ===== Start Server =====
 const PORT = 5000;

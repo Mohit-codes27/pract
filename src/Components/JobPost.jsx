@@ -22,10 +22,27 @@ function JobPost() {
     setValue("skills", value)
   }
 
-  const onSubmit = (data) => {
-    console.log("Job Post Data:", data)
-    // Here you would typically send the data to your backend
+ const onSubmit = async (data) => {
+  try {
+    const response = await fetch("http://localhost:5000/api/post-job", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+
+    const result = await response.json()
+    if (response.ok) {
+      alert("Job posted successfully!")
+    } else {
+      alert("Failed to post job: " + result.message)
+    }
+  } catch (err) {
+    alert("Error: " + err.message)
   }
+}
+
 
   return (
     <div className="relative flex items-center justify-center min-h-screen bg-[#0a66c2]">
