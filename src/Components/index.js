@@ -28,5 +28,6 @@ import Setting from "./Setting";
 // import PrivacyPage from "./PrivacyPolicy";
 import PassInput from "./Input/passInput";
 import JobPost from "./JobPost";
+import JobsList from "./Dropdowns/Job/JobList";
 import PerformanceTracker from "./PerformanceTracker/PerformanceTracker";
-export {Header, LogoutBtn, Footer, Home, About, PassInput, Contact, Login, Input, Button,SignUp2, AuthLayout, SignUp, Modal, AbroadPage, InternshipFilter, InternshipDetail, Setting, JobDetail, JobFilter, CourseDetail, CourseFilter, BookPage, MentorPage, ProfilePage, JobPost, Information, PerformanceTracker};
+export {Header, LogoutBtn, Footer, Home, About, PassInput, Contact, Login, Input, Button,SignUp2, AuthLayout, SignUp, Modal, AbroadPage, InternshipFilter, InternshipDetail, Setting, JobDetail, JobFilter, CourseDetail, CourseFilter, BookPage, MentorPage, ProfilePage, JobPost, JobsList, Information, PerformanceTracker};

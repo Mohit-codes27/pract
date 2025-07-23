@@ -351,6 +351,38 @@ app.post("/post-job", authUser, async (req, res) => {
   }
 });
 
+app.get("/jobs", async (req, res) => {
+  try {
+    const jobs = await Job.find().sort({ postedOn: -1 });
+    res.json(jobs);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to fetch jobs", error: err.message });
+  }
+});
+
+// Add this route to your main server file (after your existing /jobs route)
+
+app.get("/jobs/:id", async (req, res) => {
+  const { id } = req.params
+  console.log("Fetching job with ID:", id)
+
+  try {
+    const job = await Job.findOne({ _id: id }) // safer than findById
+
+    if (!job) {
+      console.log("Job not found with ID:", id)
+      return res.status(404).json({ message: "Job not found" })
+    }
+
+    res.json(job)
+  } catch (error) {
+    console.error("Error:", error)
+    res.status(500).json({ message: "Failed to fetch job", error: error.message })
+  }
+})
+
+
+
 
 // ===== Start Server =====
 const PORT = 5000;
