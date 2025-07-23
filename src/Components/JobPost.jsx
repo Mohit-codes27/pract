@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
+import { useNavigate } from "react-router-dom"
 
 function JobPost() {
   const {
@@ -13,6 +14,7 @@ function JobPost() {
       skills: "",
     },
   })
+  const navigate = useNavigate()
 
   const [customSkills, setCustomSkills] = useState("")
 
@@ -24,13 +26,15 @@ function JobPost() {
 
  const onSubmit = async (data) => {
   try {
-    const response = await fetch("http://localhost:5000/api/post-job", {
+    const response = await fetch("http://localhost:5000/post-job", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include", // for setting cookies
       body: JSON.stringify(data),
     })
+    
 
     const result = await response.json()
     if (response.ok) {
@@ -41,6 +45,7 @@ function JobPost() {
   } catch (err) {
     alert("Error: " + err.message)
   }
+  navigate("/jobs") // Redirect to homepage after posting job
 }
 
 

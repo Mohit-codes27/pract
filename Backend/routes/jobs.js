@@ -1,6 +1,6 @@
-const express = require("express");
+import express from "express";
+import Job from "../models/jobPost.model";
 const router = express.Router();
-const Job = require("../models/Job");
 
 router.post("/post-job", async (req, res) => {
   try {
@@ -21,4 +21,4 @@ router.get("/jobs", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

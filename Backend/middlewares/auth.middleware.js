@@ -8,6 +8,8 @@ export const authUser = async (req, res, next) => {
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
   }
+  console.log("Cookies received:", req.cookies);
+
 
   const isBlacklisted = await blacklistToken.findOne({ token: token });
   if (isBlacklisted) {

@@ -12,30 +12,37 @@ const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    async function fetchUser() {
-      try {
-        let res = await axios.get('http://localhost:5000/me', { withCredentials: true })
-        if (res.data && res.data.fullName) {
-          dispatch(login({ userData: { ...res.data, userType: 'employer' } }))
-          setLoading(false)
-          return
-        }
-      } catch {}
+  async function fetchUser() {
+    try {
+      let res = await axios.get('http://localhost:5000/me', { withCredentials: true });
+      if (res.data && res.data.fullName) {
+        const userData = { ...res.data, userType: 'employer' };
+        dispatch(login({ userData }));
+        setUser(userData); // ✅ fix here
+        setLoading(false);
+        return;
+      }
+    } catch {}
 
-      try {
-        let res = await axios.get('http://localhost:5000/employee-profile', { withCredentials: true })
-        if (res.data && res.data.fullName) {
-          dispatch(login({ userData: { ...res.data, userType: 'employee' } }))
-          setLoading(false)
-          return
-        }
-      } catch {}
+    try {
+      let res = await axios.get('http://localhost:5000/employee-profile', { withCredentials: true });
+      if (res.data && res.data.fullName) {
+        const userData = { ...res.data, userType: 'employee' };
+        dispatch(login({ userData }));
+        setUser(userData); // ✅ fix here
+        setLoading(false);
+        return;
+      }
+    } catch {}
 
-      dispatch(logout())
-      setLoading(false)
-    }
-    fetchUser()
-  }, [dispatch])
+    dispatch(logout());
+    setUser(null); // ✅ also ensure this
+    setLoading(false);
+  }
+
+  fetchUser();
+}, [dispatch]);
+
 
   if (loading) {
     return (

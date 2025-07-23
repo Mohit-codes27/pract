@@ -72,8 +72,6 @@ export default function Header() {
     profileLink = "/profile";
   }
 
-  console.log("Redux userData:", user);
-
   return (
     <header className="shadow sticky z-50 top-0">
       <nav className="bg-[#eff7fc] border-gray-200 px-4 lg:px-6 py-2.5">
