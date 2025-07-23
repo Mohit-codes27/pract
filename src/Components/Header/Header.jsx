@@ -365,7 +365,8 @@ export default function Header() {
                   Information
                 </NavLink>
               </li>
-              <li>
+              {user?.userType === "employer" ? (
+                <li>
                 <NavLink
                   to="/job-post"
                   className={({ isActive }) =>
@@ -377,6 +378,7 @@ export default function Header() {
                   Job Post
                 </NavLink>
               </li>
+              ): null}
             </ul>
           </div>
         </div>
