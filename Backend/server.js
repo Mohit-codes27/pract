@@ -200,9 +200,7 @@ app.get("/logout", authAnyUser, async (req, res) => {
 });
 
 app.get("/me", authAnyUser, (req, res) => {
-  if (req.user) {
-    console.log("Cookies in /me:", req.cookies);
-  console.log("User in /me:", req.user);
+  if (req.user) {;
     return res.json({ ...req.user.toObject(), userType: "employer" });
   } else if (req.employee) {
     // Option 1: Return nothing or 401 for employees
@@ -325,8 +323,6 @@ app.post("/post-job", authUser, async (req, res) => {
       postedOn,
       description
     } = req.body;
-    console.log("Cookies in post-job:", req.cookies);
-  console.log("Authenticated user:", req.user);
     const user = await User.findById(req.user._id).select("-password");
 
 
@@ -364,7 +360,6 @@ app.get("/jobs", async (req, res) => {
 
 app.get("/jobs/:id", async (req, res) => {
   const { id } = req.params
-  console.log("Fetching job with ID:", id)
 
   try {
     const job = await Job.findOne({ _id: id }) // safer than findById
