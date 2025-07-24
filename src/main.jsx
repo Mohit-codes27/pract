@@ -32,6 +32,9 @@ import {
 } from "./Components/index.js";
 import Login2 from "./Components/Login2.jsx";
 import ProfilePage2 from "./Components/Profile/profilePage2.jsx";
+import InternshipList from "./Components/Dropdowns/Intern/InternshipList.jsx"
+import CourseList from "./Components/Dropdowns/Course/CourseList.jsx"
+import PrivacyPage from "./Components/PrivacyPolicy.jsx";
 
 const router = createBrowserRouter([
   {
@@ -50,20 +53,20 @@ const router = createBrowserRouter([
       { path: "setting", element: <Setting /> },
       { path: "information", element: <Information /> },
       { path: "job-post", element: <JobPost /> },
-      
       // Job related routes
       { path: "jobs", element: <JobsList /> }, // List of all jobs
       { path: "job/:id", element: <JobDetail /> }, // Individual job detail by MongoDB _id
       
       // Internship routes
-      { path: "internships", element: <InternshipDetail /> },
+      { path: "internships", element: <InternshipList/> },
       { path: "internship/:id", element: <InternshipDetail /> },
-      
-      { path: "courses", element: <CourseDetail /> },
       { path: "abroad", element: <AbroadPage /> },
       { path: "mentor", element: <MentorPage /> },
       { path: "book", element: <BookPage /> },
       { path: "performance", element: <PerformanceTracker /> },
+      { path: "courses", element: <CourseList /> },
+      { path: "course/:id", element: <CourseDetail /> },
+      { path: "privacy", element: <PrivacyPage /> },
     ]
   }
 ]);
