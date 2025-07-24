@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import achievementData from "./achievementsData";
+import { Link } from "react-router-dom";
 import {
   User,
   Mail,
@@ -12,6 +12,11 @@ import {
   Home,
   FileText,
   PencilLine,
+  MapPin,
+  DollarSign,
+  Calendar,
+  Eye,
+  Trash2,
 } from "lucide-react";
 
 export default function ProfilePage() {
@@ -19,7 +24,9 @@ export default function ProfilePage() {
   const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(true);
-  const [dummyApplications, setApplications] = useState(true);
+  const [postedJobs, setPostedJobs] = useState([]);
+  const [jobsLoading, setJobsLoading] = useState(false);
+
   // Fetch profile on mount
   useEffect(() => {
     async function fetchProfile() {
@@ -37,30 +44,29 @@ export default function ProfilePage() {
     }
     fetchProfile();
   }, []);
-  useEffect(() => {
-    const dummyApplications = [
-      {
-        title: "Frontend Developer Internship",
-        type: "Internship",
-        location: "Remote",
-        createdAt: "2025-07-01T10:22:00Z",
-      },
-      {
-        title: "Backend Engineer",
-        type: "Job",
-        location: "Mumbai",
-        createdAt: "2025-06-20T15:00:00Z",
-      },
-      {
-        title: "UI/UX Designer Internship",
-        type: "Internship",
-        location: "Delhi",
-        createdAt: "2025-07-05T09:00:00Z",
-      },
-    ];
 
-    setApplications(dummyApplications);
-  }, []);
+  // Fetch jobs posted by this user
+  useEffect(() => {
+    async function fetchMyJobs() {
+      try {
+        setJobsLoading(true);
+        const res = await axios.get("http://localhost:5000/my-jobs", {
+          withCredentials: true,
+        });
+        setPostedJobs(res.data);
+      } catch (error) {
+        console.error("Error fetching posted jobs:", error);
+        setPostedJobs([]);
+      } finally {
+        setJobsLoading(false);
+      }
+    }
+    
+    // Only fetch jobs if profile is loaded and user is authenticated
+    if (profile) {
+      fetchMyJobs();
+    }
+  }, [profile]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -75,6 +81,53 @@ export default function ProfilePage() {
       setEditing(false);
     } catch (error) {
       console.error("Error updating profile:", error);
+    }
+  };
+
+  // Format date helper
+  const formatDate = (dateString) => {
+    try {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+    } catch {
+      return "Invalid Date";
+    }
+  };
+
+  // Calculate days ago
+  const getDaysAgo = (dateString) => {
+    try {
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffTime = Math.abs(now - date);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      if (diffDays === 1) return "1 day ago";
+      if (diffDays < 7) return `${diffDays} days ago`;
+      if (diffDays < 30) return `${Math.ceil(diffDays / 7)} weeks ago`;
+      return `${Math.ceil(diffDays / 30)} months ago`;
+    } catch {
+      return "Recently";
+    }
+  };
+
+  // Delete job handler
+  const handleDeleteJob = async (jobId) => {
+    if (window.confirm("Are you sure you want to delete this job posting?")) {
+      try {
+        await axios.delete(`http://localhost:5000/jobs/${jobId}`, {
+          withCredentials: true,
+        });
+        // Remove the deleted job from state
+        setPostedJobs(postedJobs.filter(job => job._id !== jobId));
+        alert("Job deleted successfully!");
+      } catch (error) {
+        console.error("Error deleting job:", error);
+        alert("Failed to delete job. Please try again.");
+      }
     }
   };
 
@@ -176,7 +229,7 @@ export default function ProfilePage() {
               {[
                 {
                   label: "Full Name",
-                  name: "name",
+                  name: "fullName",
                   type: "text",
                   icon: <User className="inline mr-2" size={18} />,
                 },
@@ -285,63 +338,121 @@ export default function ProfilePage() {
           )}
         </div>
 
-        {/* Resume Upload (You can connect with Cloudinary here later) */}
-        {/* <div className="bg-white shadow-lg rounded-xl p-6">
-          <h3 className="text-2xl font-bold mb-4 flex items-center">
-            <FileText className="inline mr-2" size={22} />
-            Resume Upload
-          </h3>
-          <p className="text-gray-600 text-md mb-3">
-            Upload your resume to apply faster!
-          </p>
-          <div className="flex flex-col sm:flex-row items-center gap-4">
-            <input
-              type="file"
-              accept="application/pdf"
-              id="resumeUpload"
-              className="border p-2 rounded w-full"
-              disabled
-            />
-            <button
-              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full sm:w-auto"
-              disabled
-            >
-              Upload (Coming Soon)
-            </button>
-          </div>
-        </div> */}
-        {/* Open Applications Section */}
+        {/* Posted Jobs Section */}
         <div className="bg-white shadow-lg rounded-xl p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-2xl font-bold flex items-center">
               <FileText className="inline mr-2" size={22} />
-              Open Applications
+              My Posted Jobs
             </h3>
-            <span className="text-sm text-gray-500 font-medium">
-              Uploaded: {dummyApplications.length}
-            </span>
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-gray-500 font-medium">
+                Total Jobs: {postedJobs.length}
+              </span>
+              <Link 
+                to="/job-post"
+                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors"
+              >
+                Post New Job
+              </Link>
+            </div>
           </div>
 
-          <p className="text-gray-600 text-md mb-3">
-            Here are all the applications you've posted.
+          <p className="text-gray-600 text-md mb-4">
+            Manage all the job postings you have created.
           </p>
 
-          {dummyApplications.length > 0 ? (
-            <ul className="divide-y divide-gray-200">
-              {dummyApplications.map((app, index) => (
-                <li key={index} className="py-3">
-                  <h4 className="text-lg font-semibold">{app.title}</h4>
-                  <p className="text-sm text-gray-600">
-                    {app.type} • {app.location} • Posted on{" "}
-                    {new Date(app.createdAt).toLocaleDateString()}
-                  </p>
-                </li>
+          {jobsLoading ? (
+            <div className="flex justify-center py-8">
+              <div className="w-8 h-8 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+            </div>
+          ) : postedJobs.length > 0 ? (
+            <div className="space-y-4">
+              {postedJobs.map((job) => (
+                <div key={job._id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="flex-1">
+                      <h4 className="text-xl font-semibold text-gray-800 mb-1">
+                        {job.jobTitle}
+                      </h4>
+                      <p className="text-sm text-gray-600 mb-2">
+                        {job.company}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Link 
+                        to={`/job/${job._id}`}
+                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
+                        title="View Job"
+                      >
+                        <Eye size={18} />
+                      </Link>
+                      <button
+                        onClick={() => handleDeleteJob(job._id)}
+                        className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors"
+                        title="Delete Job"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600 mb-3">
+                    <div className="flex items-center">
+                      <MapPin className="mr-2" size={16} />
+                      {job.location}
+                    </div>
+                    <div className="flex items-center">
+                      <DollarSign className="mr-2" size={16} />
+                      {job.salary}
+                    </div>
+                    <div className="flex items-center">
+                      <Calendar className="mr-2" size={16} />
+                      {formatDate(job.postedOn)}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+                        {job.jobType}
+                      </span>
+                      <span className="text-xs text-gray-500">
+                        Posted {getDaysAgo(job.postedOn)}
+                      </span>
+                    </div>
+                    
+                    {job.skills && job.skills.length > 0 && (
+                      <div className="flex items-center gap-1">
+                        {job.skills.slice(0, 3).map((skill, index) => (
+                          <span key={index} className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
+                            {skill}
+                          </span>
+                        ))}
+                        {job.skills.length > 3 && (
+                          <span className="text-xs text-gray-500">
+                            +{job.skills.length - 3} more
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
               ))}
-            </ul>
+            </div>
           ) : (
-            <p className="text-gray-500">
-              You have not posted any applications yet.
-            </p>
+            <div className="text-center py-8">
+              <FileText className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+              <p className="text-gray-500 mb-4">
+                You have not posted any jobs yet.
+              </p>
+              <Link 
+                to="/job-post"
+                className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full font-medium transition-colors"
+              >
+                Post Your First Job
+              </Link>
+            </div>
           )}
         </div>
       </div>

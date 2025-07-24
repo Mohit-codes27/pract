@@ -381,6 +381,39 @@ app.get("/jobs/:id", async (req, res) => {
   }
 })
 
+app.get("/my-jobs", authUser, async (req, res) => {
+  try {
+    const jobs = await Job.find({ companyId: req.user._id })
+      .sort({ postedOn: -1 }); // Latest jobs first
+    res.json(jobs);
+  } catch (error) {
+    console.error("Error fetching user jobs:", error);
+    res.status(500).json({ message: "Failed to fetch your jobs", error: error.message });
+  }
+});
+
+app.delete("/jobs/:id", authUser, async (req, res) => {
+  try {
+    const job = await Job.findById(req.params.id);
+    
+    if (!job) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+    
+    // Check if the user is the one who posted this job
+    if (job.companyId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Not authorized to delete this job" });
+    }
+    
+    await Job.findByIdAndDelete(req.params.id);
+    
+    res.json({ message: "Job deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting job:", error);
+    res.status(500).json({ message: "Failed to delete job", error: error.message });
+  }
+});
+
 
 
 
